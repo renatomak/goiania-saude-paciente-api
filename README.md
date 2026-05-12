@@ -4,15 +4,21 @@ API REST em Java 17 + Spring Boot para consulta de pacientes e vacinas aplicadas
 
 ## Arquitetura
 
-Estrutura em estilo hexagonal:
+Estrutura reorganizada em camadas, inspirada em Clean Architecture / Hexagonal:
 
-- `controller/`: adaptadores de entrada HTTP
-- `service/`: casos de uso (portas de entrada)
-- `repository/`: portas de saida
-- `repository/jdbc/`: adaptadores de saida com `JdbcTemplate`
-- `mapper/`: `RowMapper` para DTOs
-- `dto/`: contratos JSON de resposta
-- `exception/`: tratamento global de erro padronizado
+- `br.gov.goiania.saude.api.application.dto`: contratos de entrada/saida e objetos de transporte
+- `br.gov.goiania.saude.api.application.port.in`: portas de entrada dos casos de uso
+- `br.gov.goiania.saude.api.application.port.out`: portas de saida para persistencia e integracoes
+- `br.gov.goiania.saude.api.application.usecase`: implementacoes dos casos de uso
+- `br.gov.goiania.saude.api.domain.exception`: excecoes e tratamento padronizado do dominio
+- `br.gov.goiania.saude.api.infrastructure.adapter.in.web`: controllers REST
+- `br.gov.goiania.saude.api.infrastructure.adapter.out.persistence`: adapters de persistencia (`JdbcTemplate` / `EntityManager`)
+- `br.gov.goiania.saude.api.infrastructure.adapter.out.persistence.projection`: projections e registros auxiliares de consulta
+- `br.gov.goiania.saude.api.infrastructure.mapper`: mapeadores e `RowMapper`s
+- `br.gov.goiania.saude.api.infrastructure.config`: configuracoes Spring
+- `br.gov.goiania.saude.api.shared.util`: utilitarios compartilhados
+
+Os testes foram reorganizados para espelhar a mesma divisao por camadas, facilitando manutencao e onboarding.
 
 ## Endpoints
 

@@ -2,7 +2,7 @@ package br.gov.goiania.saude.api.application.dto;
 
 import java.time.LocalDate;
 
-public record VacinaResumoDTO(
+public record VacinaResumoResponse(
         Long idAplicacao,
         LocalDate dataAplicacao,
         String vacina,

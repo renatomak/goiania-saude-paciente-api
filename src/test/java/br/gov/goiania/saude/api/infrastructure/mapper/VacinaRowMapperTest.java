@@ -1,7 +1,7 @@
 package br.gov.goiania.saude.api.infrastructure.mapper;
 
-import br.gov.goiania.saude.api.application.dto.VacinaDetalheDTO;
-import br.gov.goiania.saude.api.application.dto.VacinaResumoDTO;
+import br.gov.goiania.saude.api.application.dto.VacinaDetalheResponse;
+import br.gov.goiania.saude.api.application.dto.VacinaResumoResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -25,7 +25,7 @@ class VacinaRowMapperTest {
         Mockito.when(rs.getString("status")).thenReturn("Aplicada");
 
         VacinaRaw raw = rawRowMapper.resumo().mapRow(rs, 1);
-        VacinaResumoDTO dto = vacinaMapper.toVacinaResumoDTO(raw);
+        VacinaResumoResponse dto = vacinaMapper.toVacinaResumoResponse(raw);
 
         Assertions.assertEquals(10L, dto.idAplicacao());
         Assertions.assertEquals(LocalDate.of(2024, 5, 10), dto.dataAplicacao());
@@ -69,7 +69,7 @@ class VacinaRowMapperTest {
         Mockito.when(rs.getString("rnds_uuid")).thenReturn("uuid");
 
         VacinaRaw raw = rawRowMapper.detalhe().mapRow(rs, 1);
-        VacinaDetalheDTO dto = vacinaMapper.toVacinaDetalheDTO(raw);
+        VacinaDetalheResponse dto = vacinaMapper.toVacinaDetalheResponse(raw);
 
         Assertions.assertNull(dto.nrAtendimento());
         Assertions.assertNull(dto.doseCodigo());
@@ -88,7 +88,7 @@ class VacinaRowMapperTest {
         Mockito.when(rs.getBoolean(Mockito.anyString())).thenReturn(true);
 
         VacinaRaw raw = rawRowMapper.detalhe().mapRow(rs, 1);
-        VacinaDetalheDTO dto = vacinaMapper.toVacinaDetalheDTO(raw);
+        VacinaDetalheResponse dto = vacinaMapper.toVacinaDetalheResponse(raw);
 
         Assertions.assertEquals(200L, dto.nrAtendimento());
         Assertions.assertEquals(2, dto.doseCodigo());

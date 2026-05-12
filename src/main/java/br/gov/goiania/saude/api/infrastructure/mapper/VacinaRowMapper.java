@@ -1,7 +1,7 @@
 package br.gov.goiania.saude.api.infrastructure.mapper;
 
-import br.gov.goiania.saude.api.application.dto.VacinaDetalheDTO;
-import br.gov.goiania.saude.api.application.dto.VacinaResumoDTO;
+import br.gov.goiania.saude.api.application.dto.VacinaDetalheResponse;
+import br.gov.goiania.saude.api.application.dto.VacinaResumoResponse;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
@@ -10,8 +10,8 @@ import java.time.LocalDate;
 @Component
 public class VacinaRowMapper {
 
-    public RowMapper<VacinaResumoDTO> resumo() {
-        return (rs, rowNum) -> new VacinaResumoDTO(
+    public RowMapper<VacinaResumoResponse> resumo() {
+        return (rs, rowNum) -> new VacinaResumoResponse(
                 rs.getLong("id_aplicacao"),
                 toLocalDate(rs.getObject("data_aplicacao")),
                 rs.getString("vacina"),
@@ -23,8 +23,8 @@ public class VacinaRowMapper {
         );
     }
 
-    public RowMapper<VacinaDetalheDTO> detalhe() {
-        return (rs, rowNum) -> new VacinaDetalheDTO(
+    public RowMapper<VacinaDetalheResponse> detalhe() {
+        return (rs, rowNum) -> new VacinaDetalheResponse(
                 rs.getLong("id_aplicacao"),
                 toLong(rs.getObject("nr_atendimento")),
                 toInteger(rs.getObject("dose_codigo")),

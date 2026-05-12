@@ -2,8 +2,8 @@ package br.gov.goiania.saude.api.application.dto;
 
 import java.util.List;
 
-public record ProntuarioDTO(
+public record ProntuarioResponse(
     Long pacienteId,
-    List<AtendimentoDTO> atendimentos
+    List<AtendimentoResponse> atendimentos
 ) {}
 

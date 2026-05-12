@@ -1,11 +1,11 @@
 package br.gov.goiania.saude.api;
 
-import br.gov.goiania.saude.api.application.dto.EnderecoDTO;
-import br.gov.goiania.saude.api.application.dto.PacienteDTO;
-import br.gov.goiania.saude.api.application.dto.PacienteResumoDTO;
-import br.gov.goiania.saude.api.application.dto.VacinaAplicacaoDTO;
-import br.gov.goiania.saude.api.application.dto.VacinaDetalheDTO;
-import br.gov.goiania.saude.api.application.dto.VacinaResumoDTO;
+import br.gov.goiania.saude.api.application.dto.EnderecoResponse;
+import br.gov.goiania.saude.api.application.dto.PacienteResponse;
+import br.gov.goiania.saude.api.application.dto.PacienteResumoResponse;
+import br.gov.goiania.saude.api.application.dto.VacinaAplicacaoResponse;
+import br.gov.goiania.saude.api.application.dto.VacinaDetalheResponse;
+import br.gov.goiania.saude.api.application.dto.VacinaResumoResponse;
 import br.gov.goiania.saude.api.domain.exception.BadRequestException;
 import br.gov.goiania.saude.api.domain.exception.ResourceNotFoundException;
 import br.gov.goiania.saude.api.application.dto.PacienteSearchResult;
@@ -19,11 +19,11 @@ class CoreClassesCoverageTest {
 
     @Test
     void deveCobrirFactoriesDePacienteSearchResult() {
-        PacienteDTO paciente = new PacienteDTO(
+        PacienteResponse paciente = new PacienteResponse(
             1L, "Maria", "123", "F", "Ana", "Jose", "28/04/2026", "62",
             "123456789012345", "Maria Social", "Brasil", "GO", "Goiania", "Branca", "Nenhuma", "62988887777", "maria@email.com", null, "Brasil"
         );
-        PacienteResumoDTO resumo = new PacienteResumoDTO(1L, "Maria", "123", LocalDate.now());
+        PacienteResumoResponse resumo = new PacienteResumoResponse(1L, "Maria", "123", LocalDate.now());
 
         PacienteSearchResult porCpf = PacienteSearchResult.resultadoCpf(paciente);
         PacienteSearchResult porNome = PacienteSearchResult.resultadoNome(List.of(resumo));
@@ -34,21 +34,21 @@ class CoreClassesCoverageTest {
 
     @Test
     void deveCobrirRecordsEExceptions() {
-        EnderecoDTO endereco = new EnderecoDTO("kw", "Rua", "A", "Casa", "10", "70000", "Centro", 1L, "Goiania", "GO");
-        PacienteDTO paciente = new PacienteDTO(
+        EnderecoResponse endereco = new EnderecoResponse("kw", "Rua", "A", "Casa", "10", "70000", "Centro", 1L, "Goiania", "GO");
+        PacienteResponse paciente = new PacienteResponse(
             1L, "Maria", "123", "F", "Ana", "Jose", "01/01/1990", "62",
             "123456789012345", "Maria Social", "Brasil", "GO", "Goiania", "Branca", "Nenhuma", "62988887777", "maria@email.com", endereco, "Brasil"
         );
-        PacienteResumoDTO pacienteResumo = new PacienteResumoDTO(1L, "Maria", "123", LocalDate.of(1990, 1, 1));
-        VacinaResumoDTO vacinaResumo = new VacinaResumoDTO(1L, LocalDate.of(2024, 1, 1), "Covid", "Reforco", "Adulto", "Pfizer", "UBS Central", "Joao Profissional");
-        VacinaDetalheDTO vacinaDetalhe = new VacinaDetalheDTO(
+        PacienteResumoResponse pacienteResumo = new PacienteResumoResponse(1L, "Maria", "123", LocalDate.of(1990, 1, 1));
+        VacinaResumoResponse vacinaResumo = new VacinaResumoResponse(1L, LocalDate.of(2024, 1, 1), "Covid", "Reforco", "Adulto", "Pfizer", "UBS Central", "Joao Profissional");
+        VacinaDetalheResponse vacinaDetalhe = new VacinaDetalheResponse(
                 1L, 1L, 1, "1a Dose", "Adulto", "Covid", "Comirnaty", "L123",
                 LocalDate.of(2025, 1, 1), "Pfizer", "123", LocalDate.of(2024, 1, 1),
                 "UBS", "Manha", "Grupo", "obs", "Aplicada", false, false,
                 false, false, false, false, "IM", "Braco", "Joao", "CRM",
                 "1234", "999", "UBS A", "1234567", "OK", "uuid"
         );
-        VacinaAplicacaoDTO vacinaAplicacao = new VacinaAplicacaoDTO(
+        VacinaAplicacaoResponse vacinaAplicacao = new VacinaAplicacaoResponse(
                 1L, "1", "Covid", "Comirnaty", "1a Dose", "Adulto", "L123", "2025-01-01", "Pfizer",
                 "123", "2024-01-01", "Joao", "CRM", "1234", "999", "UBS A", "1234567",
                 "UBS", "Manha", "Grupo", "N", "N", "N", "N", "N", "N", "IM", "Braco", "obs",

@@ -1,6 +1,6 @@
 package br.gov.goiania.saude.api.application.dto;
 
-public record VacinaAplicacaoDTO(
+public record VacinaAplicacaoResponse(
     Long   nrSeq,
     String tipoDoseCod,
     String nomeVacina,

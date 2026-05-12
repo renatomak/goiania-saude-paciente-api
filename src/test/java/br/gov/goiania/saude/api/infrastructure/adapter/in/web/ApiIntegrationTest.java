@@ -1,9 +1,9 @@
 package br.gov.goiania.saude.api.infrastructure.adapter.in.web;
 
-import br.gov.goiania.saude.api.application.dto.EnderecoDTO;
-import br.gov.goiania.saude.api.application.dto.PacienteDTO;
-import br.gov.goiania.saude.api.application.dto.PacienteResumoDTO;
-import br.gov.goiania.saude.api.application.dto.VacinaDetalheDTO;
+import br.gov.goiania.saude.api.application.dto.EnderecoResponse;
+import br.gov.goiania.saude.api.application.dto.PacienteResponse;
+import br.gov.goiania.saude.api.application.dto.PacienteResumoResponse;
+import br.gov.goiania.saude.api.application.dto.VacinaDetalheResponse;
 import br.gov.goiania.saude.api.application.port.in.PacienteService;
 import br.gov.goiania.saude.api.application.port.in.VacinaService;
 import org.junit.jupiter.api.DisplayName;
@@ -57,7 +57,7 @@ class ApiIntegrationTest {
     @DisplayName("Deve buscar pacientes por nome com sucesso")
     void deveBuscarPacientesPorNome() throws Exception {
         when(pacienteService.buscarPorNome(eq("maria")))
-            .thenReturn(List.of(new PacienteResumoDTO(1L, "Maria", "123", LocalDate.of(1990, 1, 1))));
+            .thenReturn(List.of(new PacienteResumoResponse(1L, "Maria", "123", LocalDate.of(1990, 1, 1))));
 
         mockMvc.perform(get("/api/pacientes/search/nome").param("nome", "maria"))
             .andExpect(status().isOk())
@@ -106,8 +106,8 @@ class ApiIntegrationTest {
             .andExpect(status().isBadRequest());
     }
 
-    private PacienteDTO pacienteExemplo() {
-        return new PacienteDTO(
+    private PacienteResponse pacienteExemplo() {
+        return new PacienteResponse(
             1L, "Maria", "12345678901", "F", "Ana", "Jose",
             "01/01/1990", "62999999999",
             "123456789012345",
@@ -119,13 +119,13 @@ class ApiIntegrationTest {
             "Nenhuma",
             "62988887777",
             "maria@email.com",
-            new EnderecoDTO("kw", "Rua", "A", "Casa", "10", "70000", "Centro", 1L, "Goiania", "GO"),
+            new EnderecoResponse("kw", "Rua", "A", "Casa", "10", "70000", "Centro", 1L, "Goiania", "GO"),
             "Brasil"
         );
     }
 
-    private VacinaDetalheDTO vacinaDetalheExemplo() {
-        return new VacinaDetalheDTO(
+    private VacinaDetalheResponse vacinaDetalheExemplo() {
+        return new VacinaDetalheResponse(
             1L, 100L, 1, "1a Dose", "Adulto", "Covid", "Comirnaty", "L123",
             LocalDate.of(2025, 1, 1), "Pfizer", "123", LocalDate.of(2024, 1, 1),
             "UBS", "Manha", "Grupo", "obs", "Aplicada", false, false,

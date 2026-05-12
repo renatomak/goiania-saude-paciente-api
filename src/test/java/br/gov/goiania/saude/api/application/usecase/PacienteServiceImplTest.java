@@ -1,9 +1,9 @@
 package br.gov.goiania.saude.api.application.usecase;
 
-import br.gov.goiania.saude.api.application.dto.EnderecoDTO;
-import br.gov.goiania.saude.api.application.dto.PacienteDTO;
+import br.gov.goiania.saude.api.application.dto.EnderecoResponse;
+import br.gov.goiania.saude.api.application.dto.PacienteResponse;
 import br.gov.goiania.saude.api.application.dto.PacienteSearchResult;
-import br.gov.goiania.saude.api.application.dto.PacienteResumoDTO;
+import br.gov.goiania.saude.api.application.dto.PacienteResumoResponse;
 import br.gov.goiania.saude.api.application.port.in.PacienteService;
 import br.gov.goiania.saude.api.application.port.out.PacienteRepository;
 import org.junit.jupiter.api.Assertions;
@@ -22,9 +22,9 @@ class PacienteServiceImplTest {
     void deveBuscarPorCpfComSucesso() {
         PacienteRepository repository = Mockito.mock(PacienteRepository.class);
         PacienteService service = new PacienteServiceImpl(repository, 50);
-        PacienteDTO paciente = pacienteExemplo();
+        PacienteResponse paciente = pacienteExemplo();
         Mockito.when(repository.buscarDetalhePorCpf("12345678901")).thenReturn(Optional.of(paciente));
-        PacienteDTO retorno = service.buscarPorCpf("123.456.789-01");
+        PacienteResponse retorno = service.buscarPorCpf("123.456.789-01");
         Assertions.assertEquals("Maria", retorno.nome());
         Mockito.verify(repository).buscarDetalhePorCpf("12345678901");
     }
@@ -50,8 +50,8 @@ class PacienteServiceImplTest {
     void deveBuscarPorNomeComSucesso() {
         PacienteRepository repository = Mockito.mock(PacienteRepository.class);
         PacienteService service = new PacienteServiceImpl(repository, 50);
-        Mockito.when(repository.buscarResumoPorNome("Maria", 50)).thenReturn(List.of(new PacienteResumoDTO(1L, "Maria", "123", LocalDate.of(1990, 1, 1))));
-        List<PacienteResumoDTO> lista = service.buscarPorNome("Maria");
+        Mockito.when(repository.buscarResumoPorNome("Maria", 50)).thenReturn(List.of(new PacienteResumoResponse(1L, "Maria", "123", LocalDate.of(1990, 1, 1))));
+        List<PacienteResumoResponse> lista = service.buscarPorNome("Maria");
         Assertions.assertEquals(1, lista.size());
         Assertions.assertEquals("Maria", lista.get(0).nome());
         Mockito.verify(repository).buscarResumoPorNome("Maria", 50);
@@ -69,7 +69,7 @@ class PacienteServiceImplTest {
     void deveBuscarPorCpfQuandoQueryTem11Digitos() {
         PacienteRepository repository = Mockito.mock(PacienteRepository.class);
         PacienteService service = new PacienteServiceImpl(repository, 50);
-        PacienteDTO paciente = pacienteExemplo();
+        PacienteResponse paciente = pacienteExemplo();
         Mockito.when(repository.buscarDetalhePorCpf("12345678901")).thenReturn(Optional.of(paciente));
         PacienteSearchResult resultado = service.buscarPorQuery("123.456.789-01");
         Assertions.assertTrue(resultado.buscaPorCpf());
@@ -81,7 +81,7 @@ class PacienteServiceImplTest {
     void deveBuscarPorNomeQuandoNaoForCpf() {
         PacienteRepository repository = Mockito.mock(PacienteRepository.class);
         PacienteService service = new PacienteServiceImpl(repository, 50);
-        Mockito.when(repository.buscarResumoPorNome("maria", 50)).thenReturn(List.of(new PacienteResumoDTO(1L, "Maria", "123", LocalDate.of(1990, 1, 1))));
+        Mockito.when(repository.buscarResumoPorNome("maria", 50)).thenReturn(List.of(new PacienteResumoResponse(1L, "Maria", "123", LocalDate.of(1990, 1, 1))));
         PacienteSearchResult resultado = service.buscarPorQuery("maria");
         Assertions.assertFalse(resultado.buscaPorCpf());
         Assertions.assertEquals(1, resultado.pacientes().size());
@@ -117,9 +117,9 @@ class PacienteServiceImplTest {
     void deveBuscarPorIdComSucesso() {
         PacienteRepository repository = Mockito.mock(PacienteRepository.class);
         PacienteService service = new PacienteServiceImpl(repository, 50);
-        PacienteDTO paciente = pacienteExemplo();
+        PacienteResponse paciente = pacienteExemplo();
         Mockito.when(repository.buscarDetalhePorId(1L)).thenReturn(Optional.of(paciente));
-        PacienteDTO retorno = service.buscarPorId(1L);
+        PacienteResponse retorno = service.buscarPorId(1L);
         Assertions.assertEquals("Maria", retorno.nome());
     }
 
@@ -132,8 +132,8 @@ class PacienteServiceImplTest {
         Assertions.assertEquals(HttpStatus.NOT_FOUND, ex.getStatusCode());
     }
 
-    private PacienteDTO pacienteExemplo() {
-        return new PacienteDTO(
+    private PacienteResponse pacienteExemplo() {
+        return new PacienteResponse(
                 1L,
                 "Maria",
                 "12345678901",
@@ -151,7 +151,7 @@ class PacienteServiceImplTest {
                 "Nenhuma",
                 "62988887777",
                 "maria@email.com",
-                new EnderecoDTO(null, null, null, null, null, null, null, null, null, null),
+                new EnderecoResponse(null, null, null, null, null, null, null, null, null, null),
                 "Brasil"
         );
     }

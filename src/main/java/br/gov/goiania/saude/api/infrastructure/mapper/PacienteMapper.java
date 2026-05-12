@@ -1,7 +1,7 @@
 package br.gov.goiania.saude.api.infrastructure.mapper;
 
-import br.gov.goiania.saude.api.application.dto.PacienteDTO;
-import br.gov.goiania.saude.api.application.dto.EnderecoDTO;
+import br.gov.goiania.saude.api.application.dto.PacienteResponse;
+import br.gov.goiania.saude.api.application.dto.EnderecoResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -13,7 +13,7 @@ public interface PacienteMapper {
     PacienteMapper INSTANCE = Mappers.getMapper(PacienteMapper.class);
 
     @Mapping(target = "sexo", source = "sexo", qualifiedByName = "converterSexo")
-    @Mapping(target = "endereco", expression = "java(toEnderecoDTO(raw))")
+    @Mapping(target = "endereco", expression = "java(toEnderecoResponse(raw))")
     @Mapping(target = "dataNascimento", expression = "java(br.gov.goiania.saude.api.shared.util.FormatadorUtil.formatarData(raw.dataNascimento))")
     @Mapping(target = "cpf", expression = "java(br.gov.goiania.saude.api.shared.util.FormatadorUtil.formatarCpf(raw.cpf))")
     @Mapping(target = "telefone", expression = "java(br.gov.goiania.saude.api.shared.util.FormatadorUtil.formatarTelefone(raw.telefone))")
@@ -27,7 +27,7 @@ public interface PacienteMapper {
     @Mapping(target = "telefoneContato", source = "telefoneContato")
     @Mapping(target = "email", source = "email")
     @Mapping(target = "paisEndereco", source = "paisEndereco")
-    PacienteDTO toPacienteDTO(PacienteRaw raw);
+    PacienteResponse toPacienteResponse(PacienteRaw raw);
 
     // ...
 
@@ -41,8 +41,8 @@ public interface PacienteMapper {
         };
     }
 
-    default EnderecoDTO toEnderecoDTO(PacienteRaw raw) {
-        return new EnderecoDTO(
+    default EnderecoResponse toEnderecoResponse(PacienteRaw raw) {
+        return new EnderecoResponse(
                 raw.keyword,
                 raw.tipoLogradouro,
                 raw.logradouro,

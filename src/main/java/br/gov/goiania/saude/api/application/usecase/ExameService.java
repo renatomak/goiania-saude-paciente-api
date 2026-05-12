@@ -1,6 +1,6 @@
 package br.gov.goiania.saude.api.application.usecase;
 
-import br.gov.goiania.saude.api.application.dto.ExameResponseDTO;
+import br.gov.goiania.saude.api.application.dto.ExameResponse;
 import br.gov.goiania.saude.api.infrastructure.adapter.out.persistence.ExameRepository;
 import org.springframework.stereotype.Service;
 import java.sql.Array;
@@ -16,9 +16,9 @@ public class ExameService {
         this.exameRepository = exameRepository;
     }
 
-    public List<ExameResponseDTO> buscarExamesPorAtendimento(Long nrAtendimento) {
+    public List<ExameResponse> buscarExamesPorAtendimento(Long nrAtendimento) {
         List<Object[]> results = exameRepository.buscarExamesPorAtendimento(nrAtendimento);
-        List<ExameResponseDTO> exames = new ArrayList<>();
+        List<ExameResponse> exames = new ArrayList<>();
         for (Object[] row : results) {
             String grupo = (String) row[0];
             List<String> itens = new ArrayList<>();
@@ -34,7 +34,7 @@ public class ExameService {
             } else if (row[1] instanceof String[] arrStr) {
                 itens = Arrays.asList(arrStr);
             }
-            exames.add(new ExameResponseDTO(grupo, itens));
+            exames.add(new ExameResponse(grupo, itens));
         }
         return exames;
     }

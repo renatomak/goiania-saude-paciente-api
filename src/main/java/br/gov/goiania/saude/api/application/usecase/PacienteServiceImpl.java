@@ -1,7 +1,7 @@
 package br.gov.goiania.saude.api.application.usecase;
 
-import br.gov.goiania.saude.api.application.dto.PacienteDTO;
-import br.gov.goiania.saude.api.application.dto.PacienteResumoDTO;
+import br.gov.goiania.saude.api.application.dto.PacienteResponse;
+import br.gov.goiania.saude.api.application.dto.PacienteResumoResponse;
 import br.gov.goiania.saude.api.application.port.out.PacienteRepository;
 import br.gov.goiania.saude.api.application.dto.PacienteSearchResult;
 import br.gov.goiania.saude.api.application.port.in.PacienteService;
@@ -34,18 +34,18 @@ public class PacienteServiceImpl implements PacienteService {
         String cpfSemMascara = queryNormalizada.replaceAll("\\D", "");
 
         if (cpfSemMascara.length() == 11) {
-            PacienteDTO paciente = pacienteRepository.buscarDetalhePorCpf(cpfSemMascara)
+            PacienteResponse paciente = pacienteRepository.buscarDetalhePorCpf(cpfSemMascara)
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                             "Paciente nao encontrado para o CPF informado."));
             return PacienteSearchResult.resultadoCpf(paciente);
         }
 
-        List<PacienteResumoDTO> pacientes = pacienteRepository.buscarResumoPorNome(queryNormalizada, limiteBuscaNome);
+        List<PacienteResumoResponse> pacientes = pacienteRepository.buscarResumoPorNome(queryNormalizada, limiteBuscaNome);
         return PacienteSearchResult.resultadoNome(pacientes);
     }
 
     @Override
-    public PacienteDTO buscarPorCpf(String cpf) {
+    public PacienteResponse buscarPorCpf(String cpf) {
         if (cpf == null || cpf.isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O parametro cpf e obrigatorio.");
         }
@@ -59,7 +59,7 @@ public class PacienteServiceImpl implements PacienteService {
     }
 
     @Override
-    public List<PacienteResumoDTO> buscarPorNome(String nome) {
+    public List<PacienteResumoResponse> buscarPorNome(String nome) {
         if (nome == null || nome.isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O parametro nome e obrigatorio.");
         }
@@ -68,7 +68,7 @@ public class PacienteServiceImpl implements PacienteService {
     }
 
     @Override
-    public PacienteDTO buscarPorId(Long id) {
+    public PacienteResponse buscarPorId(Long id) {
         return pacienteRepository.buscarDetalhePorId(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Paciente nao encontrado para o id informado."));

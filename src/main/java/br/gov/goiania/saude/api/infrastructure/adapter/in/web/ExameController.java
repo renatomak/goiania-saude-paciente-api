@@ -1,6 +1,6 @@
 package br.gov.goiania.saude.api.infrastructure.adapter.in.web;
 
-import br.gov.goiania.saude.api.application.dto.ExameResponseDTO;
+import br.gov.goiania.saude.api.application.dto.ExameResponse;
 import br.gov.goiania.saude.api.application.usecase.ExameService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,8 +19,8 @@ public class ExameController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ExameResponseDTO>> buscarExames(@PathVariable Long nrAtendimento) {
-        List<ExameResponseDTO> exames = exameService.buscarExamesPorAtendimento(nrAtendimento);
+    public ResponseEntity<List<ExameResponse>> buscarExames(@PathVariable Long nrAtendimento) {
+        List<ExameResponse> exames = exameService.buscarExamesPorAtendimento(nrAtendimento);
         if (exames.isEmpty()) {
             return ResponseEntity.noContent().build();
         }

@@ -1,15 +1,15 @@
 package br.gov.goiania.saude.api.application.port.in;
 
-import br.gov.goiania.saude.api.application.dto.VacinaDetalheDTO;
-import br.gov.goiania.saude.api.application.dto.VacinaResumoDTO;
+import br.gov.goiania.saude.api.application.dto.VacinaDetalheResponse;
+import br.gov.goiania.saude.api.application.dto.VacinaResumoResponse;
 
 import java.util.List;
 
 public interface VacinaService {
 
-    List<VacinaResumoDTO> listarPorPacienteId(Long pacienteId);
+    List<VacinaResumoResponse> listarPorPacienteId(Long pacienteId);
 
-    VacinaDetalheDTO buscarDetalhePorAplicacaoId(Long idAplicacao);
+    VacinaDetalheResponse buscarDetalhePorAplicacaoId(Long idAplicacao);
 }
 
 

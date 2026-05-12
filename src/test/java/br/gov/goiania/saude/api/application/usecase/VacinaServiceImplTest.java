@@ -1,7 +1,7 @@
 package br.gov.goiania.saude.api.application.usecase;
 
-import br.gov.goiania.saude.api.application.dto.VacinaDetalheDTO;
-import br.gov.goiania.saude.api.application.dto.VacinaResumoDTO;
+import br.gov.goiania.saude.api.application.dto.VacinaDetalheResponse;
+import br.gov.goiania.saude.api.application.dto.VacinaResumoResponse;
 import br.gov.goiania.saude.api.application.port.in.VacinaService;
 import br.gov.goiania.saude.api.application.port.out.VacinaRepository;
 import org.junit.jupiter.api.Assertions;
@@ -22,9 +22,9 @@ class VacinaServiceImplTest {
         VacinaService service = new VacinaServiceImpl(repository);
 
         Mockito.when(repository.listarPorPacienteId(10L))
-                .thenReturn(List.of(new VacinaResumoDTO(1L, LocalDate.of(2024, 1, 10), "Covid", "Reforco", "Adulto", "Pfizer", "UBS Central", "Joao Profissional")));
+                .thenReturn(List.of(new VacinaResumoResponse(1L, LocalDate.of(2024, 1, 10), "Covid", "Reforco", "Adulto", "Pfizer", "UBS Central", "Joao Profissional")));
 
-        List<VacinaResumoDTO> vacinas = service.listarPorPacienteId(10L);
+        List<VacinaResumoResponse> vacinas = service.listarPorPacienteId(10L);
 
         Assertions.assertEquals(1, vacinas.size());
         Assertions.assertEquals("Covid", vacinas.get(0).vacina());
@@ -35,7 +35,7 @@ class VacinaServiceImplTest {
         VacinaRepository repository = Mockito.mock(VacinaRepository.class);
         VacinaService service = new VacinaServiceImpl(repository);
 
-        VacinaDetalheDTO detalhe = new VacinaDetalheDTO(
+        VacinaDetalheResponse detalhe = new VacinaDetalheResponse(
                 1L, 100L, 1, "1a Dose", "Adulto", "Covid", "Comirnaty", "L123",
                 LocalDate.of(2025, 1, 1), "Pfizer", "123", LocalDate.of(2024, 1, 1),
                 "UBS", "Manha", "Grupo", "obs", "Aplicada", false, false,
@@ -45,7 +45,7 @@ class VacinaServiceImplTest {
 
         Mockito.when(repository.buscarDetalhePorAplicacaoId(1L)).thenReturn(Optional.of(detalhe));
 
-        VacinaDetalheDTO retorno = service.buscarDetalhePorAplicacaoId(1L);
+        VacinaDetalheResponse retorno = service.buscarDetalhePorAplicacaoId(1L);
 
         Assertions.assertEquals(1L, retorno.idAplicacao());
         Assertions.assertEquals("Covid", retorno.nomeVacina());

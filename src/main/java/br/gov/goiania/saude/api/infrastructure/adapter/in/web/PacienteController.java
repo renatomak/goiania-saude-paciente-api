@@ -1,7 +1,7 @@
 package br.gov.goiania.saude.api.infrastructure.adapter.in.web;
 
-import br.gov.goiania.saude.api.application.dto.PacienteDTO;
-import br.gov.goiania.saude.api.application.dto.PacienteResumoDTO;
+import br.gov.goiania.saude.api.application.dto.PacienteResponse;
+import br.gov.goiania.saude.api.application.dto.PacienteResumoResponse;
 import br.gov.goiania.saude.api.application.port.in.PacienteService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,19 +23,19 @@ public class PacienteController {
     }
 
     @GetMapping("/search/cpf")
-    public ResponseEntity<PacienteDTO> buscarPorCpf(@RequestParam("cpf") String cpf) {
-        PacienteDTO paciente = pacienteService.buscarPorCpf(cpf);
+    public ResponseEntity<PacienteResponse> buscarPorCpf(@RequestParam("cpf") String cpf) {
+        PacienteResponse paciente = pacienteService.buscarPorCpf(cpf);
         return ResponseEntity.ok(paciente);
     }
 
     @GetMapping("/search/nome")
-    public ResponseEntity<List<PacienteResumoDTO>> buscarPorNome(@RequestParam("nome") String nome) {
-        List<PacienteResumoDTO> pacientes = pacienteService.buscarPorNome(nome);
+    public ResponseEntity<List<PacienteResumoResponse>> buscarPorNome(@RequestParam("nome") String nome) {
+        List<PacienteResumoResponse> pacientes = pacienteService.buscarPorNome(nome);
         return ResponseEntity.ok(pacientes);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PacienteDTO> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<PacienteResponse> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(pacienteService.buscarPorId(id));
     }
 }

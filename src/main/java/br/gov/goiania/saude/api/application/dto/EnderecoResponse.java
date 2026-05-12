@@ -1,6 +1,6 @@
 package br.gov.goiania.saude.api.application.dto;
 
-public record EnderecoDTO(
+public record EnderecoResponse(
          String keyword,
          String tipoLogradouro,
          String logradouro,

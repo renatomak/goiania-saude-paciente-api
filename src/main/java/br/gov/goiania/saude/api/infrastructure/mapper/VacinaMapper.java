@@ -1,7 +1,7 @@
 package br.gov.goiania.saude.api.infrastructure.mapper;
 
-import br.gov.goiania.saude.api.application.dto.VacinaDetalheDTO;
-import br.gov.goiania.saude.api.application.dto.VacinaResumoDTO;
+import br.gov.goiania.saude.api.application.dto.VacinaDetalheResponse;
+import br.gov.goiania.saude.api.application.dto.VacinaResumoResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -14,7 +14,7 @@ public interface VacinaMapper {
     @Mapping(target = "doseCodigo", source = "doseCodigo", qualifiedByName = "toInteger")
     @Mapping(target = "validadeLote", source = "validadeLote", qualifiedByName = "toLocalDate")
     @Mapping(target = "dataAplicacao", source = "dataAplicacao", qualifiedByName = "toLocalDate")
-    VacinaDetalheDTO toVacinaDetalheDTO(VacinaRaw raw);
+    VacinaDetalheResponse toVacinaDetalheResponse(VacinaRaw raw);
 
     @Mapping(target = "dataAplicacao", source = "dataAplicacao", qualifiedByName = "toLocalDate")
     @Mapping(target = "vacina", source = "vacina")
@@ -23,7 +23,7 @@ public interface VacinaMapper {
     @Mapping(target = "laboratorio", source = "laboratorio")
     @Mapping(target = "estabelecimento", source = "estabelecimento")
     @Mapping(target = "profissional", source = "profissional")
-    VacinaResumoDTO toVacinaResumoDTO(VacinaRaw raw);
+    VacinaResumoResponse toVacinaResumoResponse(VacinaRaw raw);
 
     @Named("toLocalDate")
     static LocalDate toLocalDate(Object value) {

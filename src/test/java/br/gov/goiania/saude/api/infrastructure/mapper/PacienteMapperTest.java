@@ -1,6 +1,6 @@
 package br.gov.goiania.saude.api.infrastructure.mapper;
 
-import br.gov.goiania.saude.api.application.dto.PacienteDTO;
+import br.gov.goiania.saude.api.application.dto.PacienteResponse;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PacienteMapperTest {
     @Test
-    void testToPacienteDTO_sexoFeminino() {
+    void testToPacienteResponse_sexoFeminino() {
         PacienteRaw raw = new PacienteRaw();
         raw.id = 1L;
         raw.nome = "Maria";
@@ -30,14 +30,14 @@ class PacienteMapperTest {
         raw.cidade = "Goiania";
         raw.uf = "GO";
 
-        PacienteDTO dto = PacienteMapper.INSTANCE.toPacienteDTO(raw);
+        PacienteResponse dto = PacienteMapper.INSTANCE.toPacienteResponse(raw);
         assertEquals("FEMININO", dto.sexo());
         assertEquals("Maria", dto.nome());
         assertEquals("Goiania", dto.endereco().cidade());
     }
 
     @Test
-    void testToPacienteDTO_sexoMasculino() {
+    void testToPacienteResponse_sexoMasculino() {
         PacienteRaw raw = new PacienteRaw();
         raw.id = 2L;
         raw.nome = "Joao";
@@ -58,14 +58,14 @@ class PacienteMapperTest {
         raw.cidade = "Anapolis";
         raw.uf = "GO";
 
-        PacienteDTO dto = PacienteMapper.INSTANCE.toPacienteDTO(raw);
+        PacienteResponse dto = PacienteMapper.INSTANCE.toPacienteResponse(raw);
         assertEquals("MASCULINO", dto.sexo());
         assertEquals("Joao", dto.nome());
         assertEquals("Anapolis", dto.endereco().cidade());
     }
 
     @Test
-    void testToPacienteDTO_sexoOutro() {
+    void testToPacienteResponse_sexoOutro() {
         PacienteRaw raw = new PacienteRaw();
         raw.id = 3L;
         raw.nome = "Alex";
@@ -86,7 +86,7 @@ class PacienteMapperTest {
         raw.cidade = "Trindade";
         raw.uf = "GO";
 
-        PacienteDTO dto = PacienteMapper.INSTANCE.toPacienteDTO(raw);
+        PacienteResponse dto = PacienteMapper.INSTANCE.toPacienteResponse(raw);
         assertEquals("-", dto.sexo());
         assertEquals("Alex", dto.nome());
         assertEquals("Trindade", dto.endereco().cidade());

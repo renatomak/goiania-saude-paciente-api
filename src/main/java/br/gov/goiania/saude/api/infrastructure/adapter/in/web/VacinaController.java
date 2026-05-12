@@ -1,7 +1,7 @@
 package br.gov.goiania.saude.api.infrastructure.adapter.in.web;
 
-import br.gov.goiania.saude.api.application.dto.VacinaDetalheDTO;
-import br.gov.goiania.saude.api.application.dto.VacinaResumoDTO;
+import br.gov.goiania.saude.api.application.dto.VacinaDetalheResponse;
+import br.gov.goiania.saude.api.application.dto.VacinaResumoResponse;
 import br.gov.goiania.saude.api.application.port.in.VacinaService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,12 +22,12 @@ public class VacinaController {
     }
 
     @GetMapping("/pacientes/{id}/vacinas")
-    public ResponseEntity<List<VacinaResumoDTO>> listarVacinasPorPaciente(@PathVariable("id") Long pacienteId) {
+    public ResponseEntity<List<VacinaResumoResponse>> listarVacinasPorPaciente(@PathVariable("id") Long pacienteId) {
         return ResponseEntity.ok(vacinaService.listarPorPacienteId(pacienteId));
     }
 
     @GetMapping("/vacinas/aplicacoes/{idAplicacao}")
-    public ResponseEntity<VacinaDetalheDTO> detalharAplicacao(@PathVariable Long idAplicacao) {
+    public ResponseEntity<VacinaDetalheResponse> detalharAplicacao(@PathVariable Long idAplicacao) {
         return ResponseEntity.ok(vacinaService.buscarDetalhePorAplicacaoId(idAplicacao));
     }
 }

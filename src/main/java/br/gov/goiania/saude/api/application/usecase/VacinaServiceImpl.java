@@ -1,7 +1,7 @@
 package br.gov.goiania.saude.api.application.usecase;
 
-import br.gov.goiania.saude.api.application.dto.VacinaDetalheDTO;
-import br.gov.goiania.saude.api.application.dto.VacinaResumoDTO;
+import br.gov.goiania.saude.api.application.dto.VacinaDetalheResponse;
+import br.gov.goiania.saude.api.application.dto.VacinaResumoResponse;
 import br.gov.goiania.saude.api.application.port.out.VacinaRepository;
 import br.gov.goiania.saude.api.application.port.in.VacinaService;
 import org.springframework.http.HttpStatus;
@@ -20,12 +20,12 @@ public class VacinaServiceImpl implements VacinaService {
     }
 
     @Override
-    public List<VacinaResumoDTO> listarPorPacienteId(Long pacienteId) {
+    public List<VacinaResumoResponse> listarPorPacienteId(Long pacienteId) {
         return vacinaRepository.listarPorPacienteId(pacienteId);
     }
 
     @Override
-    public VacinaDetalheDTO buscarDetalhePorAplicacaoId(Long idAplicacao) {
+    public VacinaDetalheResponse buscarDetalhePorAplicacaoId(Long idAplicacao) {
         return vacinaRepository.buscarDetalhePorAplicacaoId(idAplicacao)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Aplicacao de vacina nao encontrada."));

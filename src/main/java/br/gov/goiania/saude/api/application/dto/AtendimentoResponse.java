@@ -2,14 +2,14 @@ package br.gov.goiania.saude.api.application.dto;
 
 import java.util.List;
 
-public record AtendimentoDTO(
+public record AtendimentoResponse(
     Long numeroAtendimento,
     String dataChegada,
-    UnidadeDTO unidade,
+    UnidadeResponse unidade,
     String tipoAtendimento,
-    ProfissionalDTO profissional,
+    ProfissionalResponse profissional,
     String classificacaoRisco,
     Boolean possuiAih,
-    AihDetalhesDTO aihDetalhes,
-    List<RegistroDTO> registros
+    AihDetalhesResponse aihDetalhes,
+    List<RegistroResponse> registros
 ) {}

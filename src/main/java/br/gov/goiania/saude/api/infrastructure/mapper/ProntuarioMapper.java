@@ -11,39 +11,39 @@ public interface ProntuarioMapper {
 
     @Mapping(target = "numeroAtendimento", source = "nrAtendimento")
     @Mapping(target = "dataChegada", expression = "java(formatarDataIso(raw.getDtChegada()))")
-    @Mapping(target = "unidade", expression = "java(new UnidadeDTO(raw.getUnidadeNome(), raw.getUnidadeTelefone()))")
+    @Mapping(target = "unidade", expression = "java(new UnidadeResponse(raw.getUnidadeNome(), raw.getUnidadeTelefone()))")
     @Mapping(target = "tipoAtendimento", source = "tipoAtendimento")
-    @Mapping(target = "profissional", expression = "java(new ProfissionalDTO(raw.getProfissionalNome(), raw.getProfissionalRegistro(), raw.getProfissionalTipoConselho(), raw.getProfissionalCbo(), raw.getProfissionalCboDescricao()))")
+    @Mapping(target = "profissional", expression = "java(new ProfissionalResponse(raw.getProfissionalNome(), raw.getProfissionalRegistro(), raw.getProfissionalTipoConselho(), raw.getProfissionalCbo(), raw.getProfissionalCboDescricao()))")
     @Mapping(target = "classificacaoRisco", source = "classificacaoRiscoNome")
     @Mapping(target = "possuiAih", source = "possuiAih")
     @Mapping(target = "aihDetalhes", expression = "java(mapAihDetalhes(raw))")
     @Mapping(target = "registros", ignore = true)
-    AtendimentoDTO toAtendimentoDTO(ProntuarioRaw raw);
+    AtendimentoResponse toAtendimentoResponse(ProntuarioRaw raw);
 
     @Mapping(target = "data", expression = "java(formatarDataIso(raw.getRegistroData()))")
     @Mapping(target = "tipo", expression = "java(mapTipoRegistro(raw.getRegistroTipoId()))")
     @Mapping(target = "conteudo", expression = "java(mapConteudo(raw.getRegistroTipoId(), raw.getRegistroConteudo()))")
-    RegistroDTO toRegistroDTO(ProntuarioRaw raw);
+    RegistroResponse toRegistroResponse(ProntuarioRaw raw);
 
-    default ProntuarioDTO toProntuarioDTO(Long pacienteId, List<ProntuarioRaw> raws) {
-        Map<Long, AtendimentoDTO> atendimentoMap = new LinkedHashMap<>();
-        Map<Long, List<RegistroDTO>> registrosMap = new HashMap<>();
+    default ProntuarioResponse toProntuarioResponse(Long pacienteId, List<ProntuarioRaw> raws) {
+        Map<Long, AtendimentoResponse> atendimentoMap = new LinkedHashMap<>();
+        Map<Long, List<RegistroResponse>> registrosMap = new HashMap<>();
 
         for (ProntuarioRaw raw : raws) {
             Long nrAtendimento = raw.getNrAtendimento();
 
             if (!atendimentoMap.containsKey(nrAtendimento)) {
-                atendimentoMap.put(nrAtendimento, toAtendimentoDTO(raw));
+                atendimentoMap.put(nrAtendimento, toAtendimentoResponse(raw));
                 registrosMap.put(nrAtendimento, new ArrayList<>());
             }
 
             if (isRegistroValido(raw)) {
-                registrosMap.get(nrAtendimento).add(toRegistroDTO(raw));
+                registrosMap.get(nrAtendimento).add(toRegistroResponse(raw));
             }
         }
 
-        List<AtendimentoDTO> atendimentosFinal = atendimentoMap.values().stream()
-            .map(atend -> new AtendimentoDTO(
+        List<AtendimentoResponse> atendimentosFinal = atendimentoMap.values().stream()
+            .map(atend -> new AtendimentoResponse(
                 atend.numeroAtendimento(),
                 atend.dataChegada(),
                 atend.unidade(),
@@ -56,14 +56,14 @@ public interface ProntuarioMapper {
             ))
             .toList();
 
-        return new ProntuarioDTO(pacienteId, atendimentosFinal);
+        return new ProntuarioResponse(pacienteId, atendimentosFinal);
     }
 
-    default AihDetalhesDTO mapAihDetalhes(ProntuarioRaw raw) {
+    default AihDetalhesResponse mapAihDetalhes(ProntuarioRaw raw) {
         if (raw.getPossuiAih() == null || !raw.getPossuiAih()) {
             return null;
         }
-        return new AihDetalhesDTO(
+        return new AihDetalhesResponse(
             formatarDataIso(raw.getAihDataCadastro()),
             raw.getAihPrincipaisSinais(),
             raw.getAihCondicoesInternacao(),
@@ -87,12 +87,12 @@ public interface ProntuarioMapper {
         };
     }
 
-    default ConteudoDTO mapConteudo(Integer tipoId, String conteudo) {
-        if (tipoId == null) return new ConteudoDTO(null, null, null);
+    default ConteudoResponse mapConteudo(Integer tipoId, String conteudo) {
+        if (tipoId == null) return new ConteudoResponse(null, null, null);
         return switch (tipoId) {
-            case 1 -> new ConteudoDTO(conteudo, null, null);
-            case 2 -> new ConteudoDTO(null, conteudo, null);
-            case 6 -> new ConteudoDTO(null, null, conteudo);
+            case 1 -> new ConteudoResponse(conteudo, null, null);
+            case 2 -> new ConteudoResponse(null, conteudo, null);
+            case 6 -> new ConteudoResponse(null, null, conteudo);
             default -> null;
         };
     }

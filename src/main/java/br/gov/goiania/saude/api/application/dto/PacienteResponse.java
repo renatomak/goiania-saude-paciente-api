@@ -1,7 +1,7 @@
 package br.gov.goiania.saude.api.application.dto;
 
 
-public record PacienteDTO(
+public record PacienteResponse(
         Long id,
         String nome,
         String cpf,
@@ -19,7 +19,7 @@ public record PacienteDTO(
         String etnia,
         String telefoneContato,
         String email,
-        EnderecoDTO endereco,
+        EnderecoResponse endereco,
         String paisEndereco
 ) {}
 

@@ -10,7 +10,7 @@
       "value": "http://localhost:8083"
     },
     {
-      "key": "query",
+      "key": "cpf",
       "value": "123.456.789-01"
     },
     {
@@ -44,44 +44,19 @@
       "name": "Pacientes",
       "item": [
         {
-          "name": "Buscar por Query (CPF ou Nome)",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/pacientes/search?query={{query}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "pacientes",
-                "search"
-              ],
-              "query": [
-                {
-                  "key": "query",
-                  "value": "{{query}}"
-                }
-              ]
-            }
-          }
-        },
-        {
           "name": "Buscar Paciente por CPF",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/pacientes/search/{{query}}",
+              "raw": "{{baseUrl}}/api/pacientes/{{cpf}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "pacientes",
-                "search",
-                "{{query}}"
+                "{{cpf}}"
               ]
             }
           }

@@ -77,7 +77,7 @@ public interface PacienteMapper {
 
     default EnderecoResponse toEnderecoResponse(PacienteRaw raw) {
         return new EnderecoResponse(
-                raw.keyword,
+                raw.endereco,
                 raw.tipoLogradouro,
                 raw.logradouro,
                 raw.complemento,

@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class PacienteMapperTest {
+class BuscarPacientePorCpfMapperTest {
 
     @Test
     void deveMapearProjectionParaDominio() {

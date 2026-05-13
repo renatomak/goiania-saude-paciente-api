@@ -7,8 +7,8 @@ public class PacienteRaw {
     public String nome;
     public String cpf;
     public String sexo;
-    public String nomeMae;
-    public String nomePai;
+    public String mae;
+    public String pai;
     public LocalDate dataNascimento;
     public String telefone;
     public String cartaoSus;
@@ -20,7 +20,7 @@ public class PacienteRaw {
     public String etnia;
     public String telefoneContato;
     public String email;
-    public String keyword;
+    public String endereco;
     public String tipoLogradouro;
     public String logradouro;
     public String complemento;

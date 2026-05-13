@@ -22,7 +22,7 @@ logs/
 # IntelliJ IDEA
 .idea/
 *.iml
-out/
+/out/
 
 # VS Code
 .vscode/

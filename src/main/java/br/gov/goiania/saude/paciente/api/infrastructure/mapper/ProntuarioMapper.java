@@ -1,6 +1,5 @@
 package br.gov.goiania.saude.paciente.api.infrastructure.mapper;
 
-import br.gov.goiania.saude.api.application.dto.*;
 import br.gov.goiania.saude.paciente.api.application.dto.*;
 import br.gov.goiania.saude.paciente.api.infrastructure.adapter.out.persistence.projection.ProntuarioRaw;
 import org.mapstruct.*;

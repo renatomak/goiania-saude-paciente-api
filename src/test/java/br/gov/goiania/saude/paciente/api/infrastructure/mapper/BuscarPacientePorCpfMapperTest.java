@@ -45,7 +45,7 @@ class BuscarPacientePorCpfMapperTest {
                 "Brasil"
         );
 
-        BuscarPacienteMapper mapper = Mappers.getMapper(BuscarPacienteMapper.class);
+        PacienteMapper mapper = Mappers.getMapper(PacienteMapper.class);
         Paciente dominio = mapper.toDomain(projection);
 
         assertEquals(1L, dominio.id());

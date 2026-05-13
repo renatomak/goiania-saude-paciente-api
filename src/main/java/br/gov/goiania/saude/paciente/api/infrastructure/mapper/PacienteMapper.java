@@ -14,56 +14,14 @@ import br.gov.goiania.saude.paciente.api.shared.util.FormatadorUtil;
 public interface PacienteMapper {
     PacienteMapper INSTANCE = Mappers.getMapper(PacienteMapper.class);
 
-    @Mapping(target = "sexo", source = "sexo", qualifiedByName = "converterSexo")
-    @Mapping(target = "endereco", expression = "java(toEnderecoResponse(raw))")
-    @Mapping(target = "dataNascimento", expression = "java(br.gov.goiania.saude.api.shared.util.FormatadorUtil.formatarData(raw.dataNascimento))")
-    @Mapping(target = "cpf", expression = "java(br.gov.goiania.saude.api.shared.util.FormatadorUtil.formatarCpf(raw.cpf))")
-    @Mapping(target = "telefone", expression = "java(br.gov.goiania.saude.api.shared.util.FormatadorUtil.formatarTelefone(raw.telefone))")
-    @Mapping(target = "cartaoSus", source = "cartaoSus")
-    @Mapping(target = "nomeSocial", source = "nomeSocial")
-    @Mapping(target = "paisNascimento", source = "paisNascimento")
-    @Mapping(target = "ufNascimento", source = "ufNascimento")
-    @Mapping(target = "municipioNascimento", source = "municipioNascimento")
-    @Mapping(target = "raca", source = "raca")
-    @Mapping(target = "etnia", source = "etnia")
-    @Mapping(target = "telefoneContato", source = "telefoneContato")
-    @Mapping(target = "email", source = "email")
-    @Mapping(target = "paisEndereco", source = "paisEndereco")
-    PacienteResponse toPacienteResponse(PacienteRaw raw);
-
-    @Mapping(target = "sexo", source = "sexo", qualifiedByName = "converterSexo")
-    @Mapping(target = "endereco", expression = "java(toEnderecoResponse(projection))")
-    @Mapping(target = "dataNascimento", expression = "java(br.gov.goiania.saude.api.shared.util.FormatadorUtil.formatarData(projection.dataNascimento()))")
-    @Mapping(target = "cpf", expression = "java(br.gov.goiania.saude.api.shared.util.FormatadorUtil.formatarCpf(projection.cpf()))")
-    @Mapping(target = "telefone", expression = "java(br.gov.goiania.saude.api.shared.util.FormatadorUtil.formatarTelefone(projection.telefone()))")
-    @Mapping(target = "cartaoSus", source = "cartaoSus")
-    @Mapping(target = "nomeSocial", source = "nomeSocial")
-    @Mapping(target = "paisNascimento", source = "paisNascimento")
-    @Mapping(target = "ufNascimento", source = "ufNascimento")
-    @Mapping(target = "municipioNascimento", source = "municipioNascimento")
-    @Mapping(target = "raca", source = "raca")
-    @Mapping(target = "etnia", source = "etnia")
-    @Mapping(target = "telefoneContato", source = "telefoneContato")
-    @Mapping(target = "email", source = "email")
-    @Mapping(target = "paisEndereco", source = "paisEndereco")
-    PacienteResponse toPacienteResponse(PacienteProjection projection);
+    Paciente toDomain(PacienteProjection projection);
 
     @Mapping(target = "sexo", source = "sexo", qualifiedByName = "converterSexo")
     @Mapping(target = "endereco", expression = "java(toEnderecoResponse(domain))")
-    @Mapping(target = "dataNascimento", expression = "java(br.gov.goiania.saude.api.shared.util.FormatadorUtil.formatarData(domain.dataNascimento()))")
-    @Mapping(target = "cpf", expression = "java(br.gov.goiania.saude.api.shared.util.FormatadorUtil.formatarCpf(domain.cpf()))")
-    @Mapping(target = "telefone", expression = "java(br.gov.goiania.saude.api.shared.util.FormatadorUtil.formatarTelefone(domain.telefone()))")
-    @Mapping(target = "cartaoSus", source = "cartaoSus")
-    @Mapping(target = "nomeSocial", source = "nomeSocial")
-    @Mapping(target = "paisNascimento", source = "paisNascimento")
-    @Mapping(target = "ufNascimento", source = "ufNascimento")
-    @Mapping(target = "municipioNascimento", source = "municipioNascimento")
-    @Mapping(target = "raca", source = "raca")
-    @Mapping(target = "etnia", source = "etnia")
-    @Mapping(target = "telefoneContato", source = "telefoneContato")
-    @Mapping(target = "email", source = "email")
-    @Mapping(target = "paisEndereco", source = "paisEndereco")
-    PacienteResponse toPacienteResponse(Paciente domain);
+    @Mapping(target = "dataNascimento", expression = "java(br.gov.goiania.saude.paciente.api.shared.util.FormatadorUtil.formatarData(domain.dataNascimento()))")
+    @Mapping(target = "cpf", expression = "java(br.gov.goiania.saude.paciente.api.shared.util.FormatadorUtil.formatarCpf(domain.cpf()))")
+    @Mapping(target = "telefone", expression = "java(br.gov.goiania.saude.paciente.api.shared.util.FormatadorUtil.formatarTelefone(domain.telefone()))")
+    PacienteResponse toResponse(Paciente domain);
 
     @Named("converterSexo")
     static String converterSexo(String sexo) {

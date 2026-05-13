@@ -26,7 +26,7 @@ public class PacienteUseCase implements PacientePortIn {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "CPF invalido.");
         }
         try {
-            return mapper.toPacienteResponse(adapter.buscarPorCpf(cpfSemMascara));
+            return mapper.toResponse(adapter.buscarPorCpf(cpfSemMascara));
         } catch (RuntimeException ex) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Paciente nao encontrado para o CPF informado.");
         }
@@ -35,7 +35,7 @@ public class PacienteUseCase implements PacientePortIn {
     @Override
     public PacienteResponse buscarPorId(Long id) {
         try {
-            return mapper.toPacienteResponse(adapter.buscarPorId(id));
+            return mapper.toResponse(adapter.buscarPorId(id));
         } catch (RuntimeException ex) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Paciente nao encontrado para o id informado.");
         }

@@ -45,8 +45,8 @@ class ApiIntegrationTest {
         when(pacientePortIn.buscarPorCpf(eq("121.694.411-31")))
             .thenReturn(pacienteExemplo());
 
-        mockMvc.perform(get("/api/pacientes/121.694.411-31"))
-            .andExpect(status().isInternalServerError());
+        mockMvc.perform(get("/api/pacientes/cpf/121.694.411-31"))
+            .andExpect(status().isOk());
     }
 
     @Test
@@ -62,13 +62,13 @@ class ApiIntegrationTest {
 
     @Test
     @DisplayName("Deve retornar 404 quando paciente não existir")
-    void deveRetornarErroQuandoPacienteNaoEncontrado() throws Exception {
-        when(pacientePortIn.buscarPorId(404L))
-                .thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND, "Paciente nao encontrado"));
+     void deveRetornarErroQuandoPacienteNaoEncontrado() throws Exception {
+         when(pacientePortIn.buscarPorId(404L))
+                 .thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND, "Paciente nao encontrado"));
 
-        mockMvc.perform(get("/api/pacientes/404"))
-            .andExpect(status().isInternalServerError());
-    }
+         mockMvc.perform(get("/api/pacientes/404"))
+             .andExpect(status().isNotFound());
+     }
 
     @Test
     @DisplayName("Deve retornar 500 em caso de falha inesperada")
@@ -80,15 +80,15 @@ class ApiIntegrationTest {
             .andExpect(status().isInternalServerError());
     }
 
-    @Test
-    @DisplayName("Deve retornar 400 para CPF inválido")
-    void deveRetornar400ParaCpfInvalido() throws Exception {
-        when(pacientePortIn.buscarPorCpf(eq("123")))
-            .thenThrow(new ResponseStatusException(HttpStatus.BAD_REQUEST, "CPF invalido."));
+     @Test
+     @DisplayName("Deve retornar 400 para CPF inválido")
+     void deveRetornar400ParaCpfInvalido() throws Exception {
+         when(pacientePortIn.buscarPorCpf(eq("123")))
+             .thenThrow(new ResponseStatusException(HttpStatus.BAD_REQUEST, "CPF invalido."));
 
-        mockMvc.perform(get("/api/pacientes/123"))
-            .andExpect(status().isInternalServerError());
-    }
+         mockMvc.perform(get("/api/pacientes/cpf/123"))
+             .andExpect(status().isBadRequest());
+     }
 
     private PacienteResponse pacienteExemplo() {
         return new PacienteResponse(

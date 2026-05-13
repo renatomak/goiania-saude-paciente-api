@@ -4,6 +4,7 @@ import br.gov.goiania.saude.paciente.api.application.dto.PacienteResponse;
 import br.gov.goiania.saude.paciente.api.application.port.in.PacientePortIn;
 import br.gov.goiania.saude.paciente.api.application.port.out.PacientePortOut;
 import br.gov.goiania.saude.paciente.api.domain.model.Paciente;
+import br.gov.goiania.saude.paciente.api.domain.model.PacienteMock;
 import br.gov.goiania.saude.paciente.api.infrastructure.mapper.PacienteMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,7 +13,6 @@ import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDate;
 
 class PacientePortInImplTest {
 
@@ -22,7 +22,7 @@ class PacientePortInImplTest {
     void deveBuscarPorCpfComSucesso() {
         PacientePortOut repository = Mockito.mock(PacientePortOut.class);
         PacientePortIn service = new PacienteUseCase(repository, mapper);
-        Paciente paciente = pacienteExemplo();
+        Paciente paciente = PacienteMock.valido();
 
         Mockito.when(repository.buscarPorCpf("12345678901")).thenReturn(paciente);
 
@@ -60,7 +60,7 @@ class PacientePortInImplTest {
     void deveBuscarPorIdComSucesso() {
         PacientePortOut repository = Mockito.mock(PacientePortOut.class);
         PacientePortIn service = new PacienteUseCase(repository, mapper);
-        Paciente paciente = pacienteExemplo();
+        Paciente paciente = PacienteMock.valido();
 
         Mockito.when(repository.buscarPorId(1L)).thenReturn(paciente);
 
@@ -80,18 +80,5 @@ class PacientePortInImplTest {
                 () -> service.buscarPorId(1L));
 
         Assertions.assertEquals(HttpStatus.NOT_FOUND, ex.getStatusCode());
-    }
-
-    private Paciente pacienteExemplo() {
-        return new Paciente(
-                1L, "123456789012345", "Maria", "Maria Social",
-                "12345678901", "F", "Ana", "Jose",
-                LocalDate.of(1990, 1, 1), 35,
-                "Brasil", "GO", "Goiania", "Branca", "Nenhuma",
-                "62999999999", "62988887777", "maria@email.com",
-                "Rua A, 10", "Rua", "A", "Casa",
-                "10", "70000", "Centro",
-                1L, "Goiania", "GO", "Brasil"
-        );
     }
 }

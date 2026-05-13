@@ -1,7 +1,9 @@
 package br.gov.goiania.saude.paciente.api.application.usecase;
 
 import br.gov.goiania.saude.paciente.api.application.dto.VacinaDetalheResponse;
+import br.gov.goiania.saude.paciente.api.application.dto.VacinaDetalheResponseMock;
 import br.gov.goiania.saude.paciente.api.application.dto.VacinaResumoResponse;
+import br.gov.goiania.saude.paciente.api.application.dto.VacinaResumoResponseMock;
 import br.gov.goiania.saude.paciente.api.application.port.in.VacinaPortIn;
 import br.gov.goiania.saude.paciente.api.application.port.out.VacinaPortOut;
 import org.junit.jupiter.api.Assertions;
@@ -10,7 +12,6 @@ import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,9 +23,7 @@ class VacinaPortInImplTest {
         VacinaPortIn service = new VacinaServiceImpl(repository);
 
         Mockito.when(repository.listarPorPacienteId(10L))
-                .thenReturn(List.of(new VacinaResumoResponse(
-                        1L, LocalDate.of(2024, 1, 10), "Covid", "Reforco",
-                        "Adulto", "Pfizer", "UBS Central", "Joao Profissional")));
+                .thenReturn(List.of(VacinaResumoResponseMock.valido()));
 
         List<VacinaResumoResponse> vacinas = service.listarPorPacienteId(10L);
 
@@ -37,13 +36,7 @@ class VacinaPortInImplTest {
         VacinaPortOut repository = Mockito.mock(VacinaPortOut.class);
         VacinaPortIn service = new VacinaServiceImpl(repository);
 
-        VacinaDetalheResponse detalhe = new VacinaDetalheResponse(
-                1L, 100L, 1, "1a Dose", "Adulto", "Covid", "Comirnaty", "L123",
-                LocalDate.of(2025, 1, 1), "Pfizer", "123", LocalDate.of(2024, 1, 1),
-                "UBS", "Manha", "Grupo", "obs", "Aplicada", false, false,
-                false, false, false, false, "IM", "Braco", "Joao", "CRM",
-                "1234", "999", "UBS A", "1234567", "OK", "uuid"
-        );
+        VacinaDetalheResponse detalhe = VacinaDetalheResponseMock.valido();
 
         Mockito.when(repository.buscarDetalhePorAplicacaoId(1L)).thenReturn(Optional.of(detalhe));
 

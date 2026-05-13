@@ -6,7 +6,6 @@ import br.gov.goiania.saude.paciente.api.application.dto.ConteudoResponse;
 import br.gov.goiania.saude.paciente.api.application.dto.ProfissionalResponse;
 import br.gov.goiania.saude.paciente.api.application.dto.ProntuarioResponse;
 import br.gov.goiania.saude.paciente.api.application.dto.RegistroResponse;
-import br.gov.goiania.saude.paciente.api.application.dto.UnidadeResponse;
 import br.gov.goiania.saude.paciente.api.infrastructure.adapter.out.persistence.projection.ProntuarioRaw;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

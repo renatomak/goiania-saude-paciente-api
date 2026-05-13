@@ -19,11 +19,11 @@ public interface PacienteMapper {
     @Mapping(target = "sexo", source = "sexo", qualifiedByName = "converterSexo")
     @Mapping(target = "endereco", expression = "java(toEnderecoResponse(domain))")
     @Mapping(target = "dataNascimento",
-            expression = "java(FormatadorUtil.formatarData(domain.dataNascimento()))")
+            expression = "java(br.gov.goiania.saude.paciente.api.shared.util.FormatadorUtil.formatarData(domain.dataNascimento()))")
     @Mapping(target = "cpf",
-            expression = "java(FormatadorUtil.formatarCpf(domain.cpf()))")
+            expression = "java(br.gov.goiania.saude.paciente.api.shared.util.FormatadorUtil.formatarCpf(domain.cpf()))")
     @Mapping(target = "telefone",
-            expression = "java(FormatadorUtil.formatarTelefone(domain.telefone()))")
+            expression = "java(br.gov.goiania.saude.paciente.api.shared.util.FormatadorUtil.formatarTelefone(domain.telefone()))")
     PacienteResponse toResponse(Paciente domain);
 
     @Named("converterSexo")
@@ -36,36 +36,6 @@ public interface PacienteMapper {
             case "M" -> "MASCULINO";
             default -> "-";
         };
-    }
-
-    default EnderecoResponse toEnderecoResponse(PacienteRaw raw) {
-        return new EnderecoResponse(
-                raw.getEndereco(),
-                raw.getTipoLogradouro(),
-                raw.getLogradouro(),
-                raw.getComplemento(),
-                raw.getNumero(),
-                FormatadorUtil.formatarCep(raw.getCep()),
-                raw.getBairro(),
-                raw.getCidadeId(),
-                raw.getCidade(),
-                raw.getUf()
-        );
-    }
-
-    default EnderecoResponse toEnderecoResponse(PacienteProjection projection) {
-        return new EnderecoResponse(
-                projection.enderecoCompleto(),
-                projection.tipoLogradouro(),
-                projection.logradouro(),
-                projection.complemento(),
-                projection.numero(),
-                FormatadorUtil.formatarCep(projection.cep()),
-                projection.bairro(),
-                projection.cidadeId(),
-                projection.cidade(),
-                projection.uf()
-        );
     }
 
     default EnderecoResponse toEnderecoResponse(Paciente domain) {

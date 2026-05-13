@@ -8,6 +8,7 @@ import org.mockito.Mockito;
 import org.mapstruct.factory.Mappers;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 class VacinaRowMapperTest {
@@ -33,10 +34,33 @@ class VacinaRowMapperTest {
 
     @Test
     void deveMapearDetalheComConversoesNulas() throws Exception {
+        ResultSet rs = criarResultSetNulo();
+
+        VacinaRaw raw = rawRowMapper.detalhe().mapRow(rs, 1);
+        VacinaDetalheResponse dto = vacinaMapper.toVacinaDetalheResponse(raw);
+
+        Assertions.assertNull(dto.nrAtendimento());
+        Assertions.assertNull(dto.doseCodigo());
+        Assertions.assertEquals("Covid", dto.nomeVacina());
+    }
+
+    private ResultSet criarResultSetNulo() throws SQLException {
         ResultSet rs = Mockito.mock(ResultSet.class);
+        mockIdentificadores(rs);
+        mockDadosVacina(rs);
+        mockDataELocal(rs);
+        mockBooleanosVacina(rs);
+        mockProfissionalEUnidade(rs);
+        return rs;
+    }
+
+    private void mockIdentificadores(ResultSet rs) throws SQLException {
         Mockito.when(rs.getLong("id_aplicacao")).thenReturn(1L);
         Mockito.when(rs.getObject("nr_atendimento")).thenReturn(null);
         Mockito.when(rs.getObject("dose_codigo")).thenReturn(null);
+    }
+
+    private void mockDadosVacina(ResultSet rs) throws SQLException {
         Mockito.when(rs.getString("dose")).thenReturn("1a Dose");
         Mockito.when(rs.getString("estrategia")).thenReturn("Rotina");
         Mockito.when(rs.getString("nome_vacina")).thenReturn("Covid");
@@ -45,18 +69,27 @@ class VacinaRowMapperTest {
         Mockito.when(rs.getObject("validade_lote")).thenReturn(LocalDate.of(2025, 1, 1));
         Mockito.when(rs.getString("fabricante_nome")).thenReturn("Pfizer");
         Mockito.when(rs.getString("fabricante_cnpj")).thenReturn("123");
+    }
+
+    private void mockDataELocal(ResultSet rs) throws SQLException {
         Mockito.when(rs.getObject("data_aplicacao")).thenReturn(LocalDate.of(2024, 1, 1));
         Mockito.when(rs.getString("local_atendimento")).thenReturn("UBS");
         Mockito.when(rs.getString("turno")).thenReturn("Manha");
         Mockito.when(rs.getString("grupo_atendimento")).thenReturn("A");
         Mockito.when(rs.getString("observacao")).thenReturn("Obs");
         Mockito.when(rs.getString("status")).thenReturn("Aplicada");
+    }
+
+    private void mockBooleanosVacina(ResultSet rs) throws SQLException {
         Mockito.when(rs.getBoolean("gestante")).thenReturn(false);
         Mockito.when(rs.getBoolean("puerpera")).thenReturn(false);
         Mockito.when(rs.getBoolean("historico")).thenReturn(false);
         Mockito.when(rs.getBoolean("fora_esquema")).thenReturn(false);
         Mockito.when(rs.getBoolean("viajante")).thenReturn(false);
         Mockito.when(rs.getBoolean("novo_frasco")).thenReturn(false);
+    }
+
+    private void mockProfissionalEUnidade(ResultSet rs) throws SQLException {
         Mockito.when(rs.getString("via_administracao")).thenReturn("IM");
         Mockito.when(rs.getString("local_aplicacao")).thenReturn("Braco");
         Mockito.when(rs.getString("profissional_nome")).thenReturn("Joao");
@@ -67,13 +100,6 @@ class VacinaRowMapperTest {
         Mockito.when(rs.getString("unidade_cnes")).thenReturn("1234567");
         Mockito.when(rs.getString("rnds_situacao")).thenReturn("OK");
         Mockito.when(rs.getString("rnds_uuid")).thenReturn("uuid");
-
-        VacinaRaw raw = rawRowMapper.detalhe().mapRow(rs, 1);
-        VacinaDetalheResponse dto = vacinaMapper.toVacinaDetalheResponse(raw);
-
-        Assertions.assertNull(dto.nrAtendimento());
-        Assertions.assertNull(dto.doseCodigo());
-        Assertions.assertEquals("Covid", dto.nomeVacina());
     }
 
     @Test

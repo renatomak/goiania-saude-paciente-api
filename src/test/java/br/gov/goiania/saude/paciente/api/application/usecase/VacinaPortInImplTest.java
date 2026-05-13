@@ -22,7 +22,9 @@ class VacinaPortInImplTest {
         VacinaPortIn service = new VacinaServiceImpl(repository);
 
         Mockito.when(repository.listarPorPacienteId(10L))
-                .thenReturn(List.of(new VacinaResumoResponse(1L, LocalDate.of(2024, 1, 10), "Covid", "Reforco", "Adulto", "Pfizer", "UBS Central", "Joao Profissional")));
+                .thenReturn(List.of(new VacinaResumoResponse(
+                        1L, LocalDate.of(2024, 1, 10), "Covid", "Reforco",
+                        "Adulto", "Pfizer", "UBS Central", "Joao Profissional")));
 
         List<VacinaResumoResponse> vacinas = service.listarPorPacienteId(10L);
 

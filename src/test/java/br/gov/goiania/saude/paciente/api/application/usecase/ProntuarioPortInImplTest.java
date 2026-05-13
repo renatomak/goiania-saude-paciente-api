@@ -5,8 +5,7 @@ import br.gov.goiania.saude.paciente.api.application.port.out.ProntuarioPortOut;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
 class ProntuarioPortInImplTest {
     private ProntuarioPortOut prontuarioPortOut;

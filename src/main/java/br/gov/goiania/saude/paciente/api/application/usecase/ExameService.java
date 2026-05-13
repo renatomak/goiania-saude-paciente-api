@@ -29,7 +29,7 @@ public class ExameService {
                         itens.add(o != null ? o.toString() : null);
                     }
                 } catch (Exception e) {
-                    // fallback
+                    itens = new ArrayList<>();
                 }
             } else if (row[1] instanceof String[] arrStr) {
                 itens = Arrays.asList(arrStr);

@@ -9,11 +9,6 @@ import org.springframework.context.annotation.Profile;
 import javax.sql.DataSource;
 import java.io.IOException;
 
-/**
- * Configuração do banco de dados embutido (PostgreSQL real via EmbeddedPostgres).
- * Substitui o H2 nos perfis local e test, garantindo compatibilidade total
- * com a sintaxe PostgreSQL usada nas queries da aplicação.
- */
 @Configuration
 @Profile({"local", "test"})
 public class EmbeddedPostgresConfig {
@@ -29,4 +24,3 @@ public class EmbeddedPostgresConfig {
         return embeddedPostgres.getPostgresDatabase();
     }
 }
-

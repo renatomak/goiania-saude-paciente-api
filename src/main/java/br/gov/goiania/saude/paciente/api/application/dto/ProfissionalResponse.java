@@ -6,5 +6,5 @@ public record ProfissionalResponse(
     String tipoConselho,
     String cbo,
     String cboDescricao
-) {}
+) { }
 

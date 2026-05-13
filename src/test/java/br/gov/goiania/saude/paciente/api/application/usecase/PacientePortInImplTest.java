@@ -84,35 +84,14 @@ class PacientePortInImplTest {
 
     private Paciente pacienteExemplo() {
         return new Paciente(
-                1L,
-                "123456789012345",
-                "Maria",
-                "Maria Social",
-                "12345678901",
-                "F",
-                "Ana",
-                "Jose",
-                LocalDate.of(1990, 1, 1),
-                35,
-                "Brasil",
-                "GO",
-                "Goiania",
-                "Branca",
-                "Nenhuma",
-                "62999999999",
-                "62988887777",
-                "maria@email.com",
-                "Rua A, 10",
-                "Rua",
-                "A",
-                "Casa",
-                "10",
-                "70000",
-                "Centro",
-                1L,
-                "Goiania",
-                "GO",
-                "Brasil"
+                1L, "123456789012345", "Maria", "Maria Social",
+                "12345678901", "F", "Ana", "Jose",
+                LocalDate.of(1990, 1, 1), 35,
+                "Brasil", "GO", "Goiania", "Branca", "Nenhuma",
+                "62999999999", "62988887777", "maria@email.com",
+                "Rua A, 10", "Rua", "A", "Casa",
+                "10", "70000", "Centro",
+                1L, "Goiania", "GO", "Brasil"
         );
     }
 }

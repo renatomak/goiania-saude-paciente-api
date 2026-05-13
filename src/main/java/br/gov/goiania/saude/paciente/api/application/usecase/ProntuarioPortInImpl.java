@@ -26,7 +26,9 @@ public class ProntuarioPortInImpl implements ProntuarioPortIn {
         try {
             var paciente = pacientePortIn.buscarPorId(pacienteId);
             var atendimentos = prontuarioPortOut.buscarAtendimentosComRegistrosPorPaciente(pacienteId);
-            if (atendimentos == null) atendimentos = java.util.Collections.emptyList();
+            if (atendimentos == null) {
+                atendimentos = java.util.Collections.emptyList();
+            }
             return new ProntuarioEstruturadoResponse(paciente, atendimentos);
         } catch (Exception e) {
             log.error("Erro ao buscar prontuário estruturado para paciente {}: {}", pacienteId, e.getMessage(), e);

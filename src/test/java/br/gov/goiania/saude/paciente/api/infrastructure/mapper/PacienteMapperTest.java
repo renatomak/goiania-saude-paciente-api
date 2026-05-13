@@ -6,42 +6,21 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PacienteMapperTest {
 
     @Test
     void testToResponseDominio_deveMapearDominio() {
         Paciente dominio = new Paciente(
-                7L,
-                "898001160123456",
-                "Paula",
-                "Paulinha",
-                "12345678901",
-                "F",
-                "Mae",
-                "Pai",
-                LocalDate.of(1992, 4, 10),
-                34,
-                "Brasil",
-                "GO",
-                "Goiania",
-                "Parda",
-                "Nao informada",
-                "62998887766",
-                "6233221100",
-                "paula@example.com",
-                "Rua 10, Centro",
-                "Rua",
-                "Rua 10",
-                "Casa",
-                "99",
-                "74000000",
-                "Centro",
-                1L,
-                "Goiania",
-                "GO",
-                "Brasil"
+                7L, "898001160123456", "Paula", "Paulinha",
+                "12345678901", "F", "Mae", "Pai",
+                LocalDate.of(1992, 4, 10), 34,
+                "Brasil", "GO", "Goiania", "Parda", "Nao informada",
+                "62998887766", "6233221100", "paula@example.com",
+                "Rua 10, Centro", "Rua", "Rua 10", "Casa",
+                "99", "74000000", "Centro",
+                1L, "Goiania", "GO", "Brasil"
         );
 
         PacienteResponse dto = PacienteMapper.INSTANCE.toResponse(dominio);
@@ -53,4 +32,3 @@ class PacienteMapperTest {
         assertEquals("Rua 10, Centro", dto.endereco().endereco());
     }
 }
-

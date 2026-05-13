@@ -38,13 +38,17 @@ public interface VacinaMapper {
 
     @Named("toLong")
     static Long toLong(Object value) {
-        if (value == null) return null;
+        if (value == null) {
+            return null;
+        }
         return ((Number) value).longValue();
     }
 
     @Named("toInteger")
     static Integer toInteger(Object value) {
-        if (value == null) return null;
+        if (value == null) {
+            return null;
+        }
         return ((Number) value).intValue();
     }
 }

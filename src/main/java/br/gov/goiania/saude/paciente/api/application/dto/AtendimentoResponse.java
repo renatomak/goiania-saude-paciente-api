@@ -12,4 +12,4 @@ public record AtendimentoResponse(
     Boolean possuiAih,
     AihDetalhesResponse aihDetalhes,
     List<RegistroResponse> registros
-) {}
+) { }

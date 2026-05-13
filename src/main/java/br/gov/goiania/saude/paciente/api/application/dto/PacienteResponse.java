@@ -21,5 +21,5 @@ public record PacienteResponse(
         String email,
         EnderecoResponse endereco,
         String paisEndereco
-) {}
+) { }
 

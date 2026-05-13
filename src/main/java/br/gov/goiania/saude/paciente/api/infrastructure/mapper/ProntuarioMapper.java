@@ -1,19 +1,31 @@
 package br.gov.goiania.saude.paciente.api.infrastructure.mapper;
 
-import br.gov.goiania.saude.paciente.api.application.dto.*;
+import br.gov.goiania.saude.paciente.api.application.dto.AihDetalhesResponse;
+import br.gov.goiania.saude.paciente.api.application.dto.AtendimentoResponse;
+import br.gov.goiania.saude.paciente.api.application.dto.ConteudoResponse;
+import br.gov.goiania.saude.paciente.api.application.dto.ProfissionalResponse;
+import br.gov.goiania.saude.paciente.api.application.dto.ProntuarioResponse;
+import br.gov.goiania.saude.paciente.api.application.dto.RegistroResponse;
+import br.gov.goiania.saude.paciente.api.application.dto.UnidadeResponse;
 import br.gov.goiania.saude.paciente.api.infrastructure.adapter.out.persistence.projection.ProntuarioRaw;
-import org.mapstruct.*;
-import java.util.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @Mapper(componentModel = "spring")
 public interface ProntuarioMapper {
 
     @Mapping(target = "numeroAtendimento", source = "nrAtendimento")
     @Mapping(target = "dataChegada", expression = "java(formatarDataIso(raw.getDtChegada()))")
-    @Mapping(target = "unidade", expression = "java(new UnidadeResponse(raw.getUnidadeNome(), raw.getUnidadeTelefone()))")
+    @Mapping(target = "unidade",
+            expression = "java(new UnidadeResponse(raw.getUnidadeNome(), raw.getUnidadeTelefone()))")
     @Mapping(target = "tipoAtendimento", source = "tipoAtendimento")
-    @Mapping(target = "profissional", expression = "java(new ProfissionalResponse(raw.getProfissionalNome(), raw.getProfissionalRegistro(), raw.getProfissionalTipoConselho(), raw.getProfissionalCbo(), raw.getProfissionalCboDescricao()))")
+    @Mapping(target = "profissional", expression = "java(mapProfissional(raw))")
     @Mapping(target = "classificacaoRisco", source = "classificacaoRiscoNome")
     @Mapping(target = "possuiAih", source = "possuiAih")
     @Mapping(target = "aihDetalhes", expression = "java(mapAihDetalhes(raw))")
@@ -22,7 +34,8 @@ public interface ProntuarioMapper {
 
     @Mapping(target = "data", expression = "java(formatarDataIso(raw.getRegistroData()))")
     @Mapping(target = "tipo", expression = "java(mapTipoRegistro(raw.getRegistroTipoId()))")
-    @Mapping(target = "conteudo", expression = "java(mapConteudo(raw.getRegistroTipoId(), raw.getRegistroConteudo()))")
+    @Mapping(target = "conteudo",
+            expression = "java(mapConteudo(raw.getRegistroTipoId(), raw.getRegistroConteudo()))")
     RegistroResponse toRegistroResponse(ProntuarioRaw raw);
 
     default ProntuarioResponse toProntuarioResponse(Long pacienteId, List<ProntuarioRaw> raws) {
@@ -59,6 +72,16 @@ public interface ProntuarioMapper {
         return new ProntuarioResponse(pacienteId, atendimentosFinal);
     }
 
+    default ProfissionalResponse mapProfissional(ProntuarioRaw raw) {
+        return new ProfissionalResponse(
+            raw.getProfissionalNome(),
+            raw.getProfissionalRegistro(),
+            raw.getProfissionalTipoConselho(),
+            raw.getProfissionalCbo(),
+            raw.getProfissionalCboDescricao()
+        );
+    }
+
     default AihDetalhesResponse mapAihDetalhes(ProntuarioRaw raw) {
         if (raw.getPossuiAih() == null || !raw.getPossuiAih()) {
             return null;
@@ -73,12 +96,16 @@ public interface ProntuarioMapper {
     }
 
     default String formatarDataIso(java.time.LocalDateTime data) {
-        if (data == null) return null;
+        if (data == null) {
+            return null;
+        }
         return data.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
     }
 
     default String mapTipoRegistro(Integer tipoId) {
-        if (tipoId == null) return "Indefinido";
+        if (tipoId == null) {
+            return "Indefinido";
+        }
         return switch (tipoId) {
             case 1 -> "Avaliacao";
             case 2 -> "Evolucao";
@@ -88,7 +115,9 @@ public interface ProntuarioMapper {
     }
 
     default ConteudoResponse mapConteudo(Integer tipoId, String conteudo) {
-        if (tipoId == null) return new ConteudoResponse(null, null, null);
+        if (tipoId == null) {
+            return new ConteudoResponse(null, null, null);
+        }
         return switch (tipoId) {
             case 1 -> new ConteudoResponse(conteudo, null, null);
             case 2 -> new ConteudoResponse(null, conteudo, null);
@@ -98,7 +127,9 @@ public interface ProntuarioMapper {
     }
 
     default boolean isRegistroValido(ProntuarioRaw raw) {
-        if (raw == null) return false;
+        if (raw == null) {
+            return false;
+        }
 
         String tipo = mapTipoRegistro(raw.getRegistroTipoId());
         return tipo != null && raw.getRegistroConteudo() != null && !raw.getRegistroConteudo().isBlank();

@@ -4,4 +4,4 @@ public record ConteudoResponse(
     String avaliacao,
     String evolucao,
     String exame
-) {}
+) { }

@@ -4,4 +4,4 @@ public record RegistroResponse(
     String data,
     String tipo,
     ConteudoResponse conteudo
-) {}
+) { }

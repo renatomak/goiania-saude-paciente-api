@@ -34,5 +34,5 @@ public record VacinaAplicacaoResponse(
     String nrAtendimento,
     String integracaoRnds,
     String uuidRnds
-) {}
+) { }
 

@@ -4,7 +4,6 @@ import br.gov.goiania.saude.api.application.dto.EnderecoResponse;
 import br.gov.goiania.saude.api.application.dto.PacienteResponse;
 import br.gov.goiania.saude.api.application.dto.PacienteSearchResult;
 import br.gov.goiania.saude.api.application.dto.PacienteResumoResponse;
-import br.gov.goiania.saude.api.application.port.out.PacientePortOut;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

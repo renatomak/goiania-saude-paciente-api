@@ -2,7 +2,7 @@ package br.gov.goiania.saude.api.application.usecase;
 
 import br.gov.goiania.saude.api.application.dto.PacienteResponse;
 import br.gov.goiania.saude.api.application.port.in.PacientePortIn;
-import br.gov.goiania.saude.api.application.port.out.BuscarPacientePortOut;
+import br.gov.goiania.saude.api.application.port.out.PacientePortOut;
 import br.gov.goiania.saude.api.infrastructure.mapper.PacienteMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PacienteUseCase implements PacientePortIn {
 
-    private final BuscarPacientePortOut adapter;
+    private final PacientePortOut adapter;
     private final PacienteMapper mapper;
 
     @Override

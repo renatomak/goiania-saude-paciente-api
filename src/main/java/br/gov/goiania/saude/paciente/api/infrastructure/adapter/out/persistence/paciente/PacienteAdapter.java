@@ -8,25 +8,25 @@ import org.springframework.stereotype.Component;
 @Component
 public class PacienteAdapter implements PacientePortOut {
 
-    private final PacienteRepository TESTEREPOSITORIO;
+    private final PacienteRepository pacienteRepository;
     private final PacienteMapper mapper;
 
-    public PacienteAdapter(PacienteRepository TESTEREPOSITORIO,
+    public PacienteAdapter(PacienteRepository pacienteRepository,
                            PacienteMapper mapper) {
-        this.TESTEREPOSITORIO = TESTEREPOSITORIO;
+        this.pacienteRepository = pacienteRepository;
         this.mapper = mapper;
     }
 
     @Override
     public Paciente buscarPorCpf(String cpf) {
-        return TESTEREPOSITORIO.buscarPorCpf(cpf)
+        return pacienteRepository.buscarPorCpf(cpf)
             .map(mapper::toDomain)
             .orElseThrow(() -> new RuntimeException("Paciente não encontrado para o CPF: " + cpf));
     }
 
     @Override
     public Paciente buscarPorId(Long id) {
-        return TESTEREPOSITORIO.buscarPorId(id)
+        return pacienteRepository.buscarPorId(id)
             .map(mapper::toDomain)
             .orElseThrow(() -> new RuntimeException("Paciente não encontrado para o ID: " + id));
     }

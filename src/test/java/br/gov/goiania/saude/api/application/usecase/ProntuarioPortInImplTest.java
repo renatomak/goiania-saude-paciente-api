@@ -1,7 +1,7 @@
 package br.gov.goiania.saude.api.application.usecase;
 
-import br.gov.goiania.saude.api.application.port.out.ProntuarioPortOut;
 import br.gov.goiania.saude.api.application.port.in.PacientePortIn;
+import br.gov.goiania.saude.api.application.port.out.ProntuarioPortOut;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

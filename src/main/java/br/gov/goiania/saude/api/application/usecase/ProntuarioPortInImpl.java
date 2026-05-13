@@ -1,10 +1,10 @@
 package br.gov.goiania.saude.api.application.usecase;
 
+import br.gov.goiania.saude.api.application.port.in.PacientePortIn;
 import br.gov.goiania.saude.api.application.port.out.ProntuarioPortOut;
 import br.gov.goiania.saude.api.application.port.in.ProntuarioPortIn;
 import org.springframework.stereotype.Service;
 
-import br.gov.goiania.saude.api.application.port.in.PacientePortIn;
 import br.gov.goiania.saude.api.application.dto.ProntuarioEstruturadoResponse;
 
 import org.slf4j.Logger;

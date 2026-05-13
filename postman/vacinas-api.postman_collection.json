@@ -68,6 +68,25 @@
           }
         },
         {
+          "name": "Buscar Paciente por CPF",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/pacientes/search/{{query}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "pacientes",
+                "search",
+                "{{query}}"
+              ]
+            }
+          }
+        },
+        {
           "name": "Buscar Paciente por Id",
           "request": {
             "method": "GET",

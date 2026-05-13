@@ -4,8 +4,8 @@ import br.gov.goiania.saude.api.application.dto.EnderecoResponse;
 import br.gov.goiania.saude.api.application.dto.PacienteResponse;
 import br.gov.goiania.saude.api.application.dto.PacienteSearchResult;
 import br.gov.goiania.saude.api.application.dto.PacienteResumoResponse;
-import br.gov.goiania.saude.api.application.port.in.PacienteService;
-import br.gov.goiania.saude.api.application.port.out.PacienteRepository;
+import br.gov.goiania.saude.api.application.port.in.PacientePortIn;
+import br.gov.goiania.saude.api.application.port.out.PacientePortOut;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -16,12 +16,12 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-class PacienteServiceImplTest {
+class PacientePortInImplTest {
 
     @Test
     void deveBuscarPorCpfComSucesso() {
-        PacienteRepository repository = Mockito.mock(PacienteRepository.class);
-        PacienteService service = new PacienteServiceImpl(repository, 50);
+        PacientePortOut repository = Mockito.mock(PacientePortOut.class);
+        PacientePortIn service = new PacienteServiceImpl(repository, 50);
         PacienteResponse paciente = pacienteExemplo();
         Mockito.when(repository.buscarDetalhePorCpf("12345678901")).thenReturn(Optional.of(paciente));
         PacienteResponse retorno = service.buscarPorCpf("123.456.789-01");
@@ -31,16 +31,16 @@ class PacienteServiceImplTest {
 
     @Test
     void deveRetornar400QuandoBuscarPorCpfInvalido() {
-        PacienteRepository repository = Mockito.mock(PacienteRepository.class);
-        PacienteService service = new PacienteServiceImpl(repository, 50);
+        PacientePortOut repository = Mockito.mock(PacientePortOut.class);
+        PacientePortIn service = new PacienteServiceImpl(repository, 50);
         ResponseStatusException ex = Assertions.assertThrows(ResponseStatusException.class, () -> service.buscarPorCpf("123"));
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, ex.getStatusCode());
     }
 
     @Test
     void deveRetornar404QuandoBuscarPorCpfNaoEncontrado() {
-        PacienteRepository repository = Mockito.mock(PacienteRepository.class);
-        PacienteService service = new PacienteServiceImpl(repository, 50);
+        PacientePortOut repository = Mockito.mock(PacientePortOut.class);
+        PacientePortIn service = new PacienteServiceImpl(repository, 50);
         Mockito.when(repository.buscarDetalhePorCpf("00000000000")).thenReturn(Optional.empty());
         ResponseStatusException ex = Assertions.assertThrows(ResponseStatusException.class, () -> service.buscarPorCpf("00000000000"));
         Assertions.assertEquals(HttpStatus.NOT_FOUND, ex.getStatusCode());
@@ -48,8 +48,8 @@ class PacienteServiceImplTest {
 
     @Test
     void deveBuscarPorNomeComSucesso() {
-        PacienteRepository repository = Mockito.mock(PacienteRepository.class);
-        PacienteService service = new PacienteServiceImpl(repository, 50);
+        PacientePortOut repository = Mockito.mock(PacientePortOut.class);
+        PacientePortIn service = new PacienteServiceImpl(repository, 50);
         Mockito.when(repository.buscarResumoPorNome("Maria", 50)).thenReturn(List.of(new PacienteResumoResponse(1L, "Maria", "123", LocalDate.of(1990, 1, 1))));
         List<PacienteResumoResponse> lista = service.buscarPorNome("Maria");
         Assertions.assertEquals(1, lista.size());
@@ -59,16 +59,16 @@ class PacienteServiceImplTest {
 
     @Test
     void deveRetornar400QuandoBuscarPorNomeVazio() {
-        PacienteRepository repository = Mockito.mock(PacienteRepository.class);
-        PacienteService service = new PacienteServiceImpl(repository, 50);
+        PacientePortOut repository = Mockito.mock(PacientePortOut.class);
+        PacientePortIn service = new PacienteServiceImpl(repository, 50);
         ResponseStatusException ex = Assertions.assertThrows(ResponseStatusException.class, () -> service.buscarPorNome(" "));
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, ex.getStatusCode());
     }
 
     @Test
     void deveBuscarPorCpfQuandoQueryTem11Digitos() {
-        PacienteRepository repository = Mockito.mock(PacienteRepository.class);
-        PacienteService service = new PacienteServiceImpl(repository, 50);
+        PacientePortOut repository = Mockito.mock(PacientePortOut.class);
+        PacientePortIn service = new PacienteServiceImpl(repository, 50);
         PacienteResponse paciente = pacienteExemplo();
         Mockito.when(repository.buscarDetalhePorCpf("12345678901")).thenReturn(Optional.of(paciente));
         PacienteSearchResult resultado = service.buscarPorQuery("123.456.789-01");
@@ -79,8 +79,8 @@ class PacienteServiceImplTest {
 
     @Test
     void deveBuscarPorNomeQuandoNaoForCpf() {
-        PacienteRepository repository = Mockito.mock(PacienteRepository.class);
-        PacienteService service = new PacienteServiceImpl(repository, 50);
+        PacientePortOut repository = Mockito.mock(PacientePortOut.class);
+        PacientePortIn service = new PacienteServiceImpl(repository, 50);
         Mockito.when(repository.buscarResumoPorNome("maria", 50)).thenReturn(List.of(new PacienteResumoResponse(1L, "Maria", "123", LocalDate.of(1990, 1, 1))));
         PacienteSearchResult resultado = service.buscarPorQuery("maria");
         Assertions.assertFalse(resultado.buscaPorCpf());
@@ -90,24 +90,24 @@ class PacienteServiceImplTest {
 
     @Test
     void deveRetornar400QuandoQueryForNula() {
-        PacienteRepository repository = Mockito.mock(PacienteRepository.class);
-        PacienteService service = new PacienteServiceImpl(repository, 50);
+        PacientePortOut repository = Mockito.mock(PacientePortOut.class);
+        PacientePortIn service = new PacienteServiceImpl(repository, 50);
         ResponseStatusException ex = Assertions.assertThrows(ResponseStatusException.class, () -> service.buscarPorQuery(null));
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, ex.getStatusCode());
     }
 
     @Test
     void deveRetornar400QuandoQueryForVazia() {
-        PacienteRepository repository = Mockito.mock(PacienteRepository.class);
-        PacienteService service = new PacienteServiceImpl(repository, 50);
+        PacientePortOut repository = Mockito.mock(PacientePortOut.class);
+        PacientePortIn service = new PacienteServiceImpl(repository, 50);
         ResponseStatusException ex = Assertions.assertThrows(ResponseStatusException.class, () -> service.buscarPorQuery("   "));
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, ex.getStatusCode());
     }
 
     @Test
     void deveRetornar404QuandoCpfNaoEncontradoNaQuery() {
-        PacienteRepository repository = Mockito.mock(PacienteRepository.class);
-        PacienteService service = new PacienteServiceImpl(repository, 50);
+        PacientePortOut repository = Mockito.mock(PacientePortOut.class);
+        PacientePortIn service = new PacienteServiceImpl(repository, 50);
         Mockito.when(repository.buscarDetalhePorCpf("12345678901")).thenReturn(Optional.empty());
         ResponseStatusException ex = Assertions.assertThrows(ResponseStatusException.class, () -> service.buscarPorQuery("12345678901"));
         Assertions.assertEquals(HttpStatus.NOT_FOUND, ex.getStatusCode());
@@ -115,8 +115,8 @@ class PacienteServiceImplTest {
 
     @Test
     void deveBuscarPorIdComSucesso() {
-        PacienteRepository repository = Mockito.mock(PacienteRepository.class);
-        PacienteService service = new PacienteServiceImpl(repository, 50);
+        PacientePortOut repository = Mockito.mock(PacientePortOut.class);
+        PacientePortIn service = new PacienteServiceImpl(repository, 50);
         PacienteResponse paciente = pacienteExemplo();
         Mockito.when(repository.buscarDetalhePorId(1L)).thenReturn(Optional.of(paciente));
         PacienteResponse retorno = service.buscarPorId(1L);
@@ -125,8 +125,8 @@ class PacienteServiceImplTest {
 
     @Test
     void deveRetornar404QuandoIdNaoEncontrado() {
-        PacienteRepository repository = Mockito.mock(PacienteRepository.class);
-        PacienteService service = new PacienteServiceImpl(repository, 50);
+        PacientePortOut repository = Mockito.mock(PacientePortOut.class);
+        PacientePortIn service = new PacienteServiceImpl(repository, 50);
         Mockito.when(repository.buscarDetalhePorId(1L)).thenReturn(Optional.empty());
         ResponseStatusException ex = Assertions.assertThrows(ResponseStatusException.class, () -> service.buscarPorId(1L));
         Assertions.assertEquals(HttpStatus.NOT_FOUND, ex.getStatusCode());

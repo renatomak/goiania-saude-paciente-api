@@ -2,8 +2,8 @@ package br.gov.goiania.saude.api.application.usecase;
 
 import br.gov.goiania.saude.api.application.dto.VacinaDetalheResponse;
 import br.gov.goiania.saude.api.application.dto.VacinaResumoResponse;
-import br.gov.goiania.saude.api.application.port.in.VacinaService;
-import br.gov.goiania.saude.api.application.port.out.VacinaRepository;
+import br.gov.goiania.saude.api.application.port.in.VacinaPortIn;
+import br.gov.goiania.saude.api.application.port.out.VacinaPortOut;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -14,12 +14,12 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-class VacinaServiceImplTest {
+class VacinaPortInImplTest {
 
     @Test
     void deveListarVacinasPorPaciente() {
-        VacinaRepository repository = Mockito.mock(VacinaRepository.class);
-        VacinaService service = new VacinaServiceImpl(repository);
+        VacinaPortOut repository = Mockito.mock(VacinaPortOut.class);
+        VacinaPortIn service = new VacinaServiceImpl(repository);
 
         Mockito.when(repository.listarPorPacienteId(10L))
                 .thenReturn(List.of(new VacinaResumoResponse(1L, LocalDate.of(2024, 1, 10), "Covid", "Reforco", "Adulto", "Pfizer", "UBS Central", "Joao Profissional")));
@@ -32,8 +32,8 @@ class VacinaServiceImplTest {
 
     @Test
     void deveBuscarDetalhePorAplicacaoId() {
-        VacinaRepository repository = Mockito.mock(VacinaRepository.class);
-        VacinaService service = new VacinaServiceImpl(repository);
+        VacinaPortOut repository = Mockito.mock(VacinaPortOut.class);
+        VacinaPortIn service = new VacinaServiceImpl(repository);
 
         VacinaDetalheResponse detalhe = new VacinaDetalheResponse(
                 1L, 100L, 1, "1a Dose", "Adulto", "Covid", "Comirnaty", "L123",
@@ -53,8 +53,8 @@ class VacinaServiceImplTest {
 
     @Test
     void deveRetornar404QuandoAplicacaoNaoEncontrada() {
-        VacinaRepository repository = Mockito.mock(VacinaRepository.class);
-        VacinaService service = new VacinaServiceImpl(repository);
+        VacinaPortOut repository = Mockito.mock(VacinaPortOut.class);
+        VacinaPortIn service = new VacinaServiceImpl(repository);
 
         Mockito.when(repository.buscarDetalhePorAplicacaoId(99L)).thenReturn(Optional.empty());
 

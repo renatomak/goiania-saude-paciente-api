@@ -5,7 +5,7 @@ import br.gov.goiania.saude.api.application.dto.VacinaResumoResponse;
 
 import java.util.List;
 
-public interface VacinaService {
+public interface VacinaPortIn {
 
     List<VacinaResumoResponse> listarPorPacienteId(Long pacienteId);
 

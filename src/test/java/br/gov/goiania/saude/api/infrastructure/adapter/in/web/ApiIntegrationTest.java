@@ -4,8 +4,8 @@ import br.gov.goiania.saude.api.application.dto.EnderecoResponse;
 import br.gov.goiania.saude.api.application.dto.PacienteResponse;
 import br.gov.goiania.saude.api.application.dto.PacienteResumoResponse;
 import br.gov.goiania.saude.api.application.dto.VacinaDetalheResponse;
-import br.gov.goiania.saude.api.application.port.in.PacienteService;
-import br.gov.goiania.saude.api.application.port.in.VacinaService;
+import br.gov.goiania.saude.api.application.port.in.PacientePortIn;
+import br.gov.goiania.saude.api.application.port.in.VacinaPortIn;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,15 +36,15 @@ class ApiIntegrationTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private PacienteService pacienteService;
+    private PacientePortIn pacientePortIn;
 
     @MockBean
-    private VacinaService vacinaService;
+    private VacinaPortIn vacinaPortIn;
 
     @Test
     @DisplayName("Deve buscar paciente por CPF com sucesso")
     void deveBuscarPacientePorCpf() throws Exception {
-        when(pacienteService.buscarPorCpf(eq("12345678901")))
+        when(pacientePortIn.buscarPorCpf(eq("12345678901")))
             .thenReturn(pacienteExemplo());
 
         mockMvc.perform(get("/api/pacientes/search/cpf").param("cpf", "12345678901"))
@@ -56,7 +56,7 @@ class ApiIntegrationTest {
     @Test
     @DisplayName("Deve buscar pacientes por nome com sucesso")
     void deveBuscarPacientesPorNome() throws Exception {
-        when(pacienteService.buscarPorNome(eq("maria")))
+        when(pacientePortIn.buscarPorNome(eq("maria")))
             .thenReturn(List.of(new PacienteResumoResponse(1L, "Maria", "123", LocalDate.of(1990, 1, 1))));
 
         mockMvc.perform(get("/api/pacientes/search/nome").param("nome", "maria"))
@@ -68,7 +68,7 @@ class ApiIntegrationTest {
     @Test
     @DisplayName("Deve detalhar uma aplicação de vacina")
     void deveDetalharAplicacaoVacina() throws Exception {
-        when(vacinaService.buscarDetalhePorAplicacaoId(1L)).thenReturn(vacinaDetalheExemplo());
+        when(vacinaPortIn.buscarDetalhePorAplicacaoId(1L)).thenReturn(vacinaDetalheExemplo());
 
         mockMvc.perform(get("/api/vacinas/aplicacoes/1"))
             .andExpect(status().isOk())
@@ -79,7 +79,7 @@ class ApiIntegrationTest {
     @Test
     @DisplayName("Deve retornar 404 quando paciente não existir")
     void deveRetornarErroQuandoPacienteNaoEncontrado() throws Exception {
-        when(pacienteService.buscarPorId(404L))
+        when(pacientePortIn.buscarPorId(404L))
             .thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND, "Paciente nao encontrado"));
 
         mockMvc.perform(get("/api/pacientes/404"))
@@ -89,7 +89,7 @@ class ApiIntegrationTest {
     @Test
     @DisplayName("Deve retornar 500 em caso de falha inesperada")
     void deveRetornarErroInesperado() throws Exception {
-        when(vacinaService.buscarDetalhePorAplicacaoId(anyLong()))
+        when(vacinaPortIn.buscarDetalhePorAplicacaoId(anyLong()))
             .thenThrow(new RuntimeException("falha inesperada"));
 
         mockMvc.perform(get("/api/vacinas/aplicacoes/500"))
@@ -99,7 +99,7 @@ class ApiIntegrationTest {
     @Test
     @DisplayName("Deve validar erro 400 para CPF inválido")
     void deveRetornar400ParaCpfInvalido() throws Exception {
-        when(pacienteService.buscarPorCpf(eq("123")))
+        when(pacientePortIn.buscarPorCpf(eq("123")))
             .thenThrow(new ResponseStatusException(HttpStatus.BAD_REQUEST, "CPF invalido."));
 
         mockMvc.perform(get("/api/pacientes/search/cpf").param("cpf", "123"))

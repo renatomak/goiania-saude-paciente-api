@@ -2,9 +2,9 @@ package br.gov.goiania.saude.api.application.usecase;
 
 import br.gov.goiania.saude.api.application.dto.PacienteResponse;
 import br.gov.goiania.saude.api.application.dto.PacienteResumoResponse;
-import br.gov.goiania.saude.api.application.port.out.PacienteRepository;
+import br.gov.goiania.saude.api.application.port.out.PacientePortOut;
 import br.gov.goiania.saude.api.application.dto.PacienteSearchResult;
-import br.gov.goiania.saude.api.application.port.in.PacienteService;
+import br.gov.goiania.saude.api.application.port.in.PacientePortIn;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -13,14 +13,14 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Service
-public class PacienteServiceImpl implements PacienteService {
+public class PacienteServiceImpl implements PacientePortIn {
 
-    private final PacienteRepository pacienteRepository;
+    private final PacientePortOut pacientePortOut;
     private final int limiteBuscaNome;
 
-    public PacienteServiceImpl(PacienteRepository pacienteRepository,
+    public PacienteServiceImpl(PacientePortOut pacientePortOut,
                                @Value("${app.search.nome-limit:50}") int limiteBuscaNome) {
-        this.pacienteRepository = pacienteRepository;
+        this.pacientePortOut = pacientePortOut;
         this.limiteBuscaNome = limiteBuscaNome;
     }
 
@@ -34,13 +34,13 @@ public class PacienteServiceImpl implements PacienteService {
         String cpfSemMascara = queryNormalizada.replaceAll("\\D", "");
 
         if (cpfSemMascara.length() == 11) {
-            PacienteResponse paciente = pacienteRepository.buscarDetalhePorCpf(cpfSemMascara)
+            PacienteResponse paciente = pacientePortOut.buscarDetalhePorCpf(cpfSemMascara)
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                             "Paciente nao encontrado para o CPF informado."));
             return PacienteSearchResult.resultadoCpf(paciente);
         }
 
-        List<PacienteResumoResponse> pacientes = pacienteRepository.buscarResumoPorNome(queryNormalizada, limiteBuscaNome);
+        List<PacienteResumoResponse> pacientes = pacientePortOut.buscarResumoPorNome(queryNormalizada, limiteBuscaNome);
         return PacienteSearchResult.resultadoNome(pacientes);
     }
 
@@ -53,7 +53,7 @@ public class PacienteServiceImpl implements PacienteService {
         if (cpfSemMascara.length() != 11) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "CPF invalido.");
         }
-        return pacienteRepository.buscarDetalhePorCpf(cpfSemMascara)
+        return pacientePortOut.buscarDetalhePorCpf(cpfSemMascara)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Paciente nao encontrado para o CPF informado."));
     }
@@ -64,12 +64,12 @@ public class PacienteServiceImpl implements PacienteService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O parametro nome e obrigatorio.");
         }
         String nomeNormalizado = nome.trim();
-        return pacienteRepository.buscarResumoPorNome(nomeNormalizado, limiteBuscaNome);
+        return pacientePortOut.buscarResumoPorNome(nomeNormalizado, limiteBuscaNome);
     }
 
     @Override
     public PacienteResponse buscarPorId(Long id) {
-        return pacienteRepository.buscarDetalhePorId(id)
+        return pacientePortOut.buscarDetalhePorId(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Paciente nao encontrado para o id informado."));
     }
